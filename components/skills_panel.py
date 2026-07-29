@@ -1,22 +1,12 @@
 import streamlit as st
 
 
-def create_chip(skill, color):
-
-    return f"""
-    <span style="
-        display:inline-block;
-        padding:8px 14px;
-        margin:6px;
-        border-radius:20px;
-        background-color:{color};
-        color:white;
-        font-weight:600;
-        font-size:14px;
-    ">
-        {skill}
-    </span>
+def create_chip(skill: str, kind: str) -> str:
     """
+    kind is either "matched" or "missing" -- maps to the
+    .skill-chip--matched / .skill-chip--missing classes.
+    """
+    return f'<span class="skill-chip skill-chip--{kind}">{skill}</span>'
 
 
 def show_skills(matched, missing):
@@ -28,14 +18,8 @@ def show_skills(matched, missing):
         st.subheader("✅ Matched Skills")
 
         if matched:
-
-            html = ""
-
-            for skill in sorted(matched):
-                html += create_chip(skill, "#28a745")
-
+            html = "".join(create_chip(skill, "matched") for skill in sorted(matched))
             st.markdown(html, unsafe_allow_html=True)
-
         else:
             st.info("No matched skills found.")
 
@@ -44,13 +28,7 @@ def show_skills(matched, missing):
         st.subheader("❌ Missing Skills")
 
         if missing:
-
-            html = ""
-
-            for skill in sorted(missing):
-                html += create_chip(skill, "#dc3545")
-
+            html = "".join(create_chip(skill, "missing") for skill in sorted(missing))
             st.markdown(html, unsafe_allow_html=True)
-
         else:
             st.success("No missing skills 🎉")
