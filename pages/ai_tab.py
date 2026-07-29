@@ -1,12 +1,12 @@
 import streamlit as st
 
 
-def render_ai_tab(analysis):
+def render_ai_tab(analysis, ai_error=None):
 
     st.header("🤖 AI Resume Analysis")
 
     if analysis is None:
-        st.error("❌ AI returned an invalid response.")
+        st.error(f"❌ {ai_error or 'AI returned an invalid response.'}")
         return
 
     score_col, summary_col = st.columns([1, 2])

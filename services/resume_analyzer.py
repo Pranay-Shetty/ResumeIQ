@@ -53,7 +53,7 @@ def analyze_resume_file(uploaded_resume, job_description):
         jd_skills
     )
 
-    analysis = analyze_resume(
+    analysis, ai_error = analyze_resume(
         resume_text,
         job_description
     )
@@ -64,4 +64,5 @@ def analyze_resume_file(uploaded_resume, job_description):
     st.session_state.ats_score = ats_score
     st.session_state.skill_match_percentage = skill_match_percentage
     st.session_state.analysis = analysis
+    st.session_state.ai_error = ai_error
     st.session_state.analysis_complete = True

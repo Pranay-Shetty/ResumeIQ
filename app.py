@@ -106,7 +106,10 @@ if st.session_state.analysis_complete:
         )
 
     with tab2:
-        render_ai_tab(st.session_state.analysis)
+        render_ai_tab(
+            st.session_state.analysis,
+            st.session_state.get("ai_error"),
+        )
 
     with tab3:
         render_resume_tab(st.session_state.resume_text)
@@ -131,6 +134,7 @@ if st.session_state.analysis_complete:
             "ats_score",
             "skill_match_percentage",
             "analysis",
+            "ai_error",
         ):
             st.session_state.pop(key, None)
 

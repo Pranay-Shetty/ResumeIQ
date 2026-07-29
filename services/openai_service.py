@@ -1,7 +1,12 @@
+import json
 import os
+import re
 
 from dotenv import load_dotenv
 from openai import OpenAI
+from pydantic import ValidationError
+
+from models.analysis_model import ResumeAnalysis
 
 load_dotenv()
 
@@ -17,13 +22,20 @@ client = OpenAI(
     },
 )
 
-import json
-import re
-
-from models.analysis_model import ResumeAnalysis
-
 
 def analyze_resume(resume_text, job_description):
+    """
+    Calls the AI model and returns a (ResumeAnalysis | None, error_message | None)
+    tuple. On success, error_message is None. On failure, analysis is None and
+    error_message explains what went wrong so the UI can show something useful
+    instead of a generic "invalid response".
+    """
+
+    if not os.getenv("OPENROUTER_API_KEY"):
+        return None, (
+            "OPENROUTER_API_KEY is not set. Add it to your .env file "
+            "(OPENROUTER_API_KEY=sk-or-...) and restart the app."
+        )
 
     prompt = f"""
 You are an expert ATS recruiter.
@@ -50,17 +62,18 @@ Job Description:
 {job_description}
 """
 
-    try:
+    result = None
 
+    try:
         response = client.chat.completions.create(
             model=MODEL_NAME,
             messages=[
                 {
                     "role": "user",
-                    "content": prompt
+                    "content": prompt,
                 }
             ],
-            temperature=0
+            temperature=0,
         )
 
         result = response.choices[0].message.content.strip()
@@ -72,15 +85,32 @@ Job Description:
 
         data = json.loads(result)
 
-        return ResumeAnalysis(**data)
+        return ResumeAnalysis(**data), None
 
     except json.JSONDecodeError as e:
         print("❌ JSON Decode Error")
         print(result)
         print(e)
-        return None
+        return None, (
+            "The AI model returned a response that wasn't valid JSON. "
+            "This can happen with certain models -- try again, or check "
+            "the terminal for the raw response."
+        )
+
+    except ValidationError as e:
+        print("❌ Response Validation Error")
+        print(result)
+        print(e)
+        return None, (
+            "The AI model's response didn't match the expected fields "
+            "(ats_score, strengths, weaknesses, missing_skills, "
+            "suggestions, professional_summary)."
+        )
 
     except Exception as e:
         print(f"❌ Unexpected Error: {e}")
-        return None
-    
+        return None, (
+            f"The AI request failed: {e}. This is often an invalid/expired "
+            "OPENROUTER_API_KEY, insufficient OpenRouter credits, or the "
+            f"model '{MODEL_NAME}' being unavailable for your account."
+        )
