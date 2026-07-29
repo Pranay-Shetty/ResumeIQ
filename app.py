@@ -12,12 +12,18 @@ from components.hero import show_hero
 from components.upload_panel import render_upload_panel
 
 # =========================
-# Pages
+# Result Sections
 # =========================
-from pages.analysis_tab import render_analysis_tab
-from pages.ai_tab import render_ai_tab
-from pages.resume_preview_tab import render_resume_tab
-from pages.report_tab import render_report_tab
+# NOTE: this folder is intentionally named "sections" and NOT "pages" --
+# Streamlit auto-detects any folder literally named "pages/" and turns
+# every .py file inside it into a clickable multipage-app nav entry in
+# the sidebar. These files only define render_*() functions and were
+# never meant to be standalone pages, so that auto-nav just produced
+# broken/dead links cluttering the sidebar.
+from sections.analysis_tab import render_analysis_tab
+from sections.ai_tab import render_ai_tab
+from sections.resume_preview_tab import render_resume_tab
+from sections.report_tab import render_report_tab
 
 # =====================================
 # Services
