@@ -1,7 +1,13 @@
 import streamlit as st
 
 
-def render_upload_panel():
+def render_upload_panel(reset_key=0):
+    """
+    reset_key changes whenever "Analyze Another Resume" is clicked
+    (see app.py), which forces Streamlit to treat the file_uploader
+    and text_area as brand-new widgets -- otherwise the previously
+    uploaded file / pasted job description stick around after reset.
+    """
     with st.container(border=True):
         left, right = st.columns([1, 2], gap="large")
 
@@ -12,6 +18,7 @@ def render_upload_panel():
                 "",
                 type=["pdf", "docx"],
                 label_visibility="collapsed",
+                key=f"resume_uploader_{reset_key}",
             )
 
         with right:
@@ -22,6 +29,7 @@ def render_upload_panel():
                 placeholder="Paste the job description here...",
                 height=230,
                 label_visibility="collapsed",
+                key=f"job_description_{reset_key}",
             )
 
         st.write("")

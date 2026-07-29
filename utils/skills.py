@@ -10,9 +10,13 @@ import re
 
 SKILL_CATEGORIES = {
     "Programming Languages": [
-        "python", "java", "javascript", "typescript", "c++", "c#", "c",
-        "go", "golang", "rust", "kotlin", "swift", "php", "ruby", "scala",
-        "r", "matlab", "bash", "shell scripting", "sql", "html", "css",
+        # NOTE: bare single-letter/common-word tokens (e.g. "c", "r", "go")
+        # are deliberately excluded -- they false-positive match ordinary
+        # text like lettered lists "(a) (b) (c)" or "go above and beyond".
+        # "golang", "c++", "c#" are unambiguous enough to keep.
+        "python", "java", "javascript", "typescript", "c++", "c#",
+        "golang", "rust", "kotlin", "swift", "php", "ruby", "scala",
+        "matlab", "bash", "shell scripting", "sql", "html", "css",
     ],
     "Frameworks & Libraries": [
         "streamlit", "fastapi", "flask", "django", "react", "react.js",
@@ -105,6 +109,20 @@ _DISPLAY_OVERRIDES = {
 }
 
 
+# When both a base skill and a more specific variant match the same
+# mention (e.g. "React" and "React.js" both matching "React.js"), keep
+# only the more specific one so the UI doesn't show the same
+# technology twice. Deliberately an explicit allowlist rather than a
+# generic substring rule -- a generic rule would wrongly drop "SQL"
+# whenever "PostgreSQL" also matched, since "sql" is a literal
+# substring of "postgresql" even though they're distinct skills.
+_SUPERSEDED_BY = {
+    "react": "react.js",
+    "spring": "spring boot",
+    "github": "github actions",
+}
+
+
 def _pattern_for(skill: str) -> str:
     if skill in _SPECIAL_BOUNDARY_SKILLS:
         return r"(?<![\w.]){}(?![\w.])".format(re.escape(skill))
@@ -126,12 +144,16 @@ def extract_skills(text: str):
 
     text = text.lower()
 
-    found = set()
+    raw_found = set()
 
     for skill in COMMON_SKILLS:
         pattern = _pattern_for(skill)
 
         if re.search(pattern, text):
-            found.add(_display_name(skill))
+            raw_found.add(skill)
 
-    return sorted(found)
+    for base, extended in _SUPERSEDED_BY.items():
+        if base in raw_found and extended in raw_found:
+            raw_found.discard(base)
+
+    return sorted(_display_name(skill) for skill in raw_found)

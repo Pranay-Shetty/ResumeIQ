@@ -6,34 +6,57 @@ An AI-powered Resume Analyzer that compares resumes against job descriptions and
 
 - Upload PDF/DOCX resumes
 - Resume text extraction
-- ATS compatibility score
-- Skill gap analysis
-- AI-powered resume improvement suggestions
-- Downloadable analysis report
+- Rule-based ATS compatibility score
+- Skill-gap analysis across a 130+ skill taxonomy (languages, frameworks, cloud, databases, tools, soft skills)
+- AI-powered resume analysis and improvement suggestions (via OpenRouter)
+- Downloadable PDF analysis report
 
 ## 🛠️ Tech Stack
 
 - Python
 - Streamlit
-- FastAPI
-- OpenAI API
-- PyMuPDF
-- python-docx
-- Pandas
+- OpenAI SDK (via OpenRouter)
+- PyMuPDF (PDF parsing)
+- python-docx (DOCX parsing)
+- Plotly (skill-match chart)
+- Pydantic (AI response validation)
+- fpdf2 (PDF report generation)
 
 ## 📌 Project Status
 
-🚧 Currently under active development.
+✅ Feature-complete (v1.0) — core pipeline works end to end; ongoing polish and bug fixes.
 
 ## 📅 Roadmap
 
 - [x] Project setup
 - [x] Streamlit UI
-- [ ] Resume parsing
-- [ ] ATS scoring
-- [ ] AI suggestions
-- [ ] PDF report generation
+- [x] Resume parsing
+- [x] ATS scoring
+- [x] AI suggestions
+- [x] PDF report generation
+- [ ] Cover letter generator
+- [ ] Interview question generator
 - [ ] Docker deployment
+
+## ⚙️ Setup
+
+```bash
+python -m venv venv
+venv\Scripts\activate        # Windows
+pip install -r requirements.txt
+```
+
+Create a `.env` file in the project root:
+
+```
+OPENROUTER_API_KEY=your_key_here
+```
+
+Run the app (must use `streamlit run`, not `python app.py`):
+
+```bash
+streamlit run app.py
+```
 
 ## 📷 Screenshots
 

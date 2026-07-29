@@ -57,6 +57,9 @@ def load_css():
 if "analysis_complete" not in st.session_state:
     st.session_state.analysis_complete = False
 
+if "upload_reset_key" not in st.session_state:
+    st.session_state.upload_reset_key = 0
+
 # =====================================
 # Page
 # =====================================
@@ -67,7 +70,9 @@ show_sidebar(api_key_missing=not bool(os.getenv("OPENROUTER_API_KEY")))
 # =====================================
 # Upload Section
 # =====================================
-uploaded_resume, job_description, analyze_clicked = render_upload_panel()
+uploaded_resume, job_description, analyze_clicked = render_upload_panel(
+    reset_key=st.session_state.upload_reset_key
+)
 
 # =====================================
 # Analyze Button
@@ -144,6 +149,7 @@ if st.session_state.analysis_complete:
         ):
             st.session_state.pop(key, None)
 
+        st.session_state.upload_reset_key += 1
         st.rerun()
 
 # =====================================
