@@ -9,6 +9,7 @@ def render_report_tab(
     matched,
     missing,
     analysis,
+    interview_prep=None,
 ):
     """
     Render the downloadable PDF report tab.
@@ -17,8 +18,8 @@ def render_report_tab(
     st.subheader("📥 Download Your Report")
 
     st.caption(
-        "Export a PDF summary of your ATS score, skill match, "
-        "and AI-powered insights to share or keep for reference."
+        "Export a PDF summary of your ATS score, skill match, AI-powered "
+        "insights, and interview prep questions to share or keep for reference."
     )
 
     st.write("")
@@ -30,6 +31,7 @@ def render_report_tab(
             matched_skills=matched,
             missing_skills=missing,
             analysis=analysis,
+            interview_prep=interview_prep,
         )
 
         st.download_button(

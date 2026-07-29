@@ -1,7 +1,11 @@
 import streamlit as st
 
 
-def show_sidebar(api_key_missing: bool = False):
+def show_sidebar(
+    api_key_missing: bool = False,
+    ats_score=None,
+    skill_match_percentage=None,
+):
 
     with st.sidebar:
 
@@ -16,6 +20,29 @@ def show_sidebar(api_key_missing: bool = False):
             unsafe_allow_html=True,
         )
 
+        # Live snapshot of the current analysis, if one exists -- keeps
+        # the headline numbers visible in the sidebar without needing
+        # to scroll back up to the Analysis tab.
+        if ats_score is not None:
+            st.markdown(
+                f"""
+                <div class="sidebar-snapshot">
+                    <div class="snapshot-heading">📌 Current Analysis</div>
+                    <div class="snapshot-row">
+                        <div class="snapshot-stat">
+                            <div class="snapshot-value">{ats_score}%</div>
+                            <div class="snapshot-label">ATS Score</div>
+                        </div>
+                        <div class="snapshot-stat">
+                            <div class="snapshot-value">{skill_match_percentage}%</div>
+                            <div class="snapshot-label">Skill Match</div>
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
         st.markdown(
             """
             <div class="sidebar-features">
@@ -23,9 +50,8 @@ def show_sidebar(api_key_missing: bool = False):
                 <div class="feature-item">✅ ATS Score</div>
                 <div class="feature-item">✅ Skill Matching</div>
                 <div class="feature-item">✅ AI Suggestions</div>
+                <div class="feature-item">✅ Interview Prep Q&amp;A</div>
                 <div class="feature-item">✅ PDF Report Export</div>
-                <div class="feature-item soon">🔜 Cover Letter Generator</div>
-                <div class="feature-item soon">🔜 Interview Questions</div>
             </div>
             """,
             unsafe_allow_html=True,

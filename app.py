@@ -22,6 +22,7 @@ from components.upload_panel import render_upload_panel
 # broken/dead links cluttering the sidebar.
 from sections.analysis_tab import render_analysis_tab
 from sections.ai_tab import render_ai_tab
+from sections.interview_prep_tab import render_interview_prep_tab
 from sections.resume_preview_tab import render_resume_tab
 from sections.report_tab import render_report_tab
 
@@ -52,27 +53,112 @@ def load_css():
 
 
 # =====================================
-# Session State
+# Session State Defaults
 # =====================================
-if "analysis_complete" not in st.session_state:
-    st.session_state.analysis_complete = False
+_DEFAULTS = {
+    "analysis_complete": False,
+    "upload_reset_key": 0,
+    "show_summary_dialog": False,
+}
 
-if "upload_reset_key" not in st.session_state:
-    st.session_state.upload_reset_key = 0
+for _key, _value in _DEFAULTS.items():
+    if _key not in st.session_state:
+        st.session_state[_key] = _value
+
+RESULT_KEYS = (
+    "resume_text",
+    "matched",
+    "missing",
+    "ats_score",
+    "skill_match_percentage",
+    "analysis",
+    "ai_error",
+    "interview_prep",
+    "interview_prep_error",
+    "uploaded_resume_name",
+)
+
+
+def reset_analysis():
+    for key in RESULT_KEYS + ("analysis_complete", "show_summary_dialog"):
+        st.session_state.pop(key, None)
+    st.session_state.upload_reset_key += 1
+
+
+# =====================================
+# Results Summary Dialog
+# =====================================
+@st.dialog("✅ Analysis Complete")
+def show_results_summary():
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric("ATS Score", f"{st.session_state.ats_score}%")
+
+    with col2:
+        st.metric("Skill Match", f"{st.session_state.skill_match_percentage}%")
+
+    missing = st.session_state.get("missing") or []
+
+    st.write("")
+
+    if missing:
+        preview = ", ".join(missing[:5])
+        if len(missing) > 5:
+            preview += f", +{len(missing) - 5} more"
+        st.warning(f"**Top missing skills:** {preview}")
+    else:
+        st.success("No missing skills detected against this job description 🎉")
+
+    if st.session_state.get("interview_prep") is not None:
+        st.info(
+            f"🎤 {len(st.session_state.interview_prep.questions)} tailored "
+            "interview questions are ready in the Interview Prep tab."
+        )
+
+    st.write("")
+
+    if st.button("View Full Analysis →", use_container_width=True, type="primary"):
+        st.session_state.show_summary_dialog = False
+        st.rerun()
+
 
 # =====================================
 # Page
 # =====================================
 load_css()
 show_hero()
-show_sidebar(api_key_missing=not bool(os.getenv("OPENROUTER_API_KEY")))
+show_sidebar(
+    api_key_missing=not bool(os.getenv("OPENROUTER_API_KEY")),
+    ats_score=st.session_state.get("ats_score") if st.session_state.analysis_complete else None,
+    skill_match_percentage=st.session_state.get("skill_match_percentage") if st.session_state.analysis_complete else None,
+)
 
 # =====================================
 # Upload Section
 # =====================================
-uploaded_resume, job_description, analyze_clicked = render_upload_panel(
-    reset_key=st.session_state.upload_reset_key
-)
+# Once an analysis exists, collapse the big upload/JD panel into a
+# slim status bar so the results tabs sit near the top of the page
+# instead of requiring a scroll past the full upload UI.
+if not st.session_state.analysis_complete:
+    uploaded_resume, job_description, analyze_clicked = render_upload_panel(
+        reset_key=st.session_state.upload_reset_key
+    )
+else:
+    uploaded_resume, job_description, analyze_clicked = None, None, False
+
+    with st.container(border=True):
+        status_col, action_col = st.columns([4, 1])
+
+        with status_col:
+            st.markdown(
+                f"✅ **Analyzed:** {st.session_state.get('uploaded_resume_name', 'your resume')}"
+            )
+
+        with action_col:
+            if st.button("🔄 New Resume", use_container_width=True):
+                reset_analysis()
+                st.rerun()
 
 # =====================================
 # Analyze Button
@@ -87,23 +173,28 @@ if analyze_clicked:
         st.error("Please paste a job description.")
         st.stop()
 
-    with st.spinner("Analyzing your resume..."):
+    with st.spinner("Analyzing your resume and preparing interview questions..."):
         try:
             analyze_resume_file(uploaded_resume, job_description)
         except Exception as e:
             st.error(f"Something went wrong while analyzing your resume: {e}")
             st.stop()
 
+    st.session_state.show_summary_dialog = True
     st.rerun()
 
 # =====================================
-# Results Tabs
+# Results
 # =====================================
 if st.session_state.analysis_complete:
 
-    tab1, tab2, tab3, tab4 = st.tabs([
+    if st.session_state.show_summary_dialog:
+        show_results_summary()
+
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "📊 Analysis",
         "🤖 AI Insights",
+        "🎤 Interview Prep",
         "📄 Resume Preview",
         "📥 Report",
     ])
@@ -123,34 +214,23 @@ if st.session_state.analysis_complete:
         )
 
     with tab3:
-        render_resume_tab(st.session_state.resume_text)
+        render_interview_prep_tab(
+            st.session_state.interview_prep,
+            st.session_state.get("interview_prep_error"),
+        )
 
     with tab4:
+        render_resume_tab(st.session_state.resume_text)
+
+    with tab5:
         render_report_tab(
             st.session_state.ats_score,
             st.session_state.skill_match_percentage,
             st.session_state.matched,
             st.session_state.missing,
             st.session_state.analysis,
+            st.session_state.interview_prep,
         )
-
-    st.write("")
-
-    if st.button("🔄 Analyze Another Resume"):
-        for key in (
-            "analysis_complete",
-            "resume_text",
-            "matched",
-            "missing",
-            "ats_score",
-            "skill_match_percentage",
-            "analysis",
-            "ai_error",
-        ):
-            st.session_state.pop(key, None)
-
-        st.session_state.upload_reset_key += 1
-        st.rerun()
 
 # =====================================
 # Footer

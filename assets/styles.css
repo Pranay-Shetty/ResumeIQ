@@ -307,6 +307,50 @@ textarea, [data-testid="stTextArea"] textarea {
     margin-top: 2px;
 }
 
+.sidebar-snapshot {
+    background: var(--color-surface);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.snapshot-heading {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    margin-bottom: 10px;
+}
+
+.snapshot-row {
+    display: flex;
+    gap: 12px;
+}
+
+.snapshot-stat {
+    flex: 1;
+    text-align: center;
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-sm);
+    padding: 10px 6px;
+}
+
+.snapshot-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--color-primary-light);
+    line-height: 1.1;
+}
+
+.snapshot-label {
+    font-size: 11px;
+    color: var(--color-text-faint);
+    margin-top: 4px;
+}
+
 .sidebar-features {
     background: var(--color-surface);
     border: 1px solid var(--color-border);

@@ -9,6 +9,7 @@ from utils.skills import extract_skills
 from services.skill_matcher import compare_skills
 from services.ats_scorer import calculate_ats_score
 from services.openai_service import analyze_resume
+from services.interview_prep_service import generate_interview_prep
 
 
 def analyze_resume_file(uploaded_resume, job_description):
@@ -58,6 +59,11 @@ def analyze_resume_file(uploaded_resume, job_description):
         job_description
     )
 
+    interview_prep, interview_prep_error = generate_interview_prep(
+        resume_text,
+        job_description,
+    )
+
     st.session_state.resume_text = resume_text
     st.session_state.matched = matched
     st.session_state.missing = missing
@@ -65,4 +71,7 @@ def analyze_resume_file(uploaded_resume, job_description):
     st.session_state.skill_match_percentage = skill_match_percentage
     st.session_state.analysis = analysis
     st.session_state.ai_error = ai_error
+    st.session_state.interview_prep = interview_prep
+    st.session_state.interview_prep_error = interview_prep_error
     st.session_state.analysis_complete = True
+    st.session_state.uploaded_resume_name = uploaded_resume.name

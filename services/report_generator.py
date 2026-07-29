@@ -60,6 +60,7 @@ def generate_report_pdf(
     matched_skills,
     missing_skills,
     analysis=None,
+    interview_prep=None,
 ) -> bytes:
     """
     Build a downloadable PDF summary of the resume analysis
@@ -119,5 +120,19 @@ def generate_report_pdf(
             "AI analysis was not available for this report "
             "(check that OPENROUTER_API_KEY is configured)."
         )
+
+    # ---------- Interview Prep ----------
+    if interview_prep is not None:
+        pdf.add_page()
+        pdf.section_title("Interview Preparation")
+
+        for i, q in enumerate(interview_prep.questions, start=1):
+            pdf.body_text(f"{i}. [{q.category}] {q.question}")
+            pdf.body_text(f"Suggested answer: {q.suggested_answer}", bullet=True)
+
+        if interview_prep.tips:
+            pdf.section_title("Interview Tips For This Role")
+            for tip in interview_prep.tips:
+                pdf.body_text(tip, bullet=True)
 
     return bytes(pdf.output())
