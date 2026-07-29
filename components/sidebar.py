@@ -1,7 +1,7 @@
 import streamlit as st
 
 
-def show_sidebar():
+def show_sidebar(api_key_missing: bool = False):
 
     with st.sidebar:
 
@@ -21,13 +21,23 @@ def show_sidebar():
 
             ✅ Skill Matching
 
-            🔜 AI Suggestions
+            ✅ AI Suggestions
+
+            ✅ PDF Report Export
 
             🔜 Cover Letter Generator
 
             🔜 Interview Questions
             """
         )
+
+        if api_key_missing:
+            st.warning(
+                "⚠ No OpenRouter API key detected.\n\n"
+                "AI-powered insights will be unavailable until "
+                "`OPENROUTER_API_KEY` is set in your `.env` file. "
+                "Rule-based ATS scoring and skill matching still work."
+            )
 
         st.markdown("---")
 
@@ -37,4 +47,4 @@ def show_sidebar():
 
         st.write("⚡ Streamlit")
 
-        st.write("🤖 OpenAI")
+        st.write("🤖 OpenAI / OpenRouter")

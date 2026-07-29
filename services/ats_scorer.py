@@ -29,9 +29,15 @@ def calculate_ats_score(resume_text, matched_skills, jd_skills):
         score += 5
 
     # ---------- Contact Info (10 points) ----------
-    email = re.search(r"\S+@\S+", resume_text)
+    email = re.search(r"[\w.+-]+@[\w-]+\.[\w.-]+", resume_text)
 
-    phone = re.search(r"\b\d{10}\b", resume_text)
+    # Matches common phone formats: (555) 123-4567, 555-123-4567,
+    # 555.123.4567, +91 98765 43210, 9876543210, etc.
+    phone = re.search(
+        r"(\+\d{1,3}[\s.-]?)?"
+        r"(\(\d{3}\)|\d{3})[\s.-]?\d{3}[\s.-]?\d{4}\b",
+        resume_text,
+    )
 
     if email:
         score += 5

@@ -1,14 +1,13 @@
+import os
+
 import streamlit as st
+from dotenv import load_dotenv
 
 # ==========================
 # Components
 # ==========================
-from components.header import show_header
 from components.sidebar import show_sidebar
-from components.score_card import show_score
-from components.skills_panel import show_skills
 from components.footer import show_footer
-from components.charts import show_skill_chart
 from components.hero import show_hero
 from components.upload_panel import render_upload_panel
 
@@ -18,14 +17,17 @@ from components.upload_panel import render_upload_panel
 from pages.analysis_tab import render_analysis_tab
 from pages.ai_tab import render_ai_tab
 from pages.resume_preview_tab import render_resume_tab
+from pages.report_tab import render_report_tab
 
 # =====================================
 # Services
 # =====================================
 from services.resume_analyzer import analyze_resume_file
 
+load_dotenv()
+
 # =====================================
-# CSS
+# Page Config
 # =====================================
 st.set_page_config(
     page_title="AI Resume Analyzer",
@@ -34,26 +36,27 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+
 def load_css():
     with open("assets/styles.css") as f:
         st.markdown(
             f"<style>{f.read()}</style>",
-            unsafe_allow_html=True
+            unsafe_allow_html=True,
         )
-        
+
+
 # =====================================
 # Session State
 # =====================================
-
 if "analysis_complete" not in st.session_state:
     st.session_state.analysis_complete = False
-    
+
 # =====================================
 # Page
 # =====================================
 load_css()
 show_hero()
-show_sidebar()
+show_sidebar(api_key_missing=not bool(os.getenv("OPENROUTER_API_KEY")))
 
 # =====================================
 # Upload Section
@@ -63,7 +66,6 @@ uploaded_resume, job_description, analyze_clicked = render_upload_panel()
 # =====================================
 # Analyze Button
 # =====================================
-
 if analyze_clicked:
 
     if uploaded_resume is None:
@@ -74,114 +76,33 @@ if analyze_clicked:
         st.error("Please paste a job description.")
         st.stop()
 
-    try:
-        analyze_resume_file(
-            uploaded_resume,
-            job_description
-        )
-
-        st.rerun()
-
-    except Exception as e:
-        st.error(str(e))
-
-    # ----------------------------
-    # Resume Parsing
-    # ----------------------------
-
-    extension = uploaded_resume.name.split(".")[-1].lower()
-
-    if extension == "pdf":
-        resume_text = extract_pdf_text(uploaded_resume)
-
-    elif extension == "docx":
-        resume_text = extract_docx_text(uploaded_resume)
-
-    else:
-        st.error("Unsupported file format.")
-        st.stop()
-
-    # ----------------------------
-    # Clean Resume
-    # ----------------------------
-
-    resume_text = clean_text(resume_text)
-
-    # ----------------------------
-    # Extract Skills
-    # ----------------------------
-
-    resume_skills = extract_skills(resume_text)
-    jd_skills = extract_skills(job_description)
-
-    # ----------------------------
-    # Match Skills
-    # ----------------------------
-
-    matched, missing = compare_skills(
-        resume_skills,
-        jd_skills
-    )
-    
-    total_skills = len(jd_skills)
-
-    if total_skills > 0:
-        skill_match_percentage = round(
-            (len(matched) / total_skills) * 100
-        )
-    else:
-        skill_match_percentage = 0
-
-    # ----------------------------
-    # ATS Score
-    # ----------------------------
-
-    ats_score = calculate_ats_score(
-        resume_text,
-        matched,
-        jd_skills
-    )
-    # ----------------------------
-    # AI Analysis
-    # ----------------------------
-
-    analysis = analyze_resume(
-        resume_text,
-        job_description
-    )
-
-    # ----------------------------
-    # Save Everything
-    # ----------------------------
-
-    st.session_state.resume_text = resume_text
-    st.session_state.matched = matched
-    st.session_state.missing = missing
-    st.session_state.ats_score = ats_score
-    st.session_state.skill_match_percentage = skill_match_percentage
-    st.session_state.analysis = analysis
-
-    st.session_state.analysis_complete = True
+    with st.spinner("Analyzing your resume..."):
+        try:
+            analyze_resume_file(uploaded_resume, job_description)
+        except Exception as e:
+            st.error(f"Something went wrong while analyzing your resume: {e}")
+            st.stop()
 
     st.rerun()
 
 # =====================================
 # Results Tabs
 # =====================================
-
 if st.session_state.analysis_complete:
-    tab1, tab2, tab3 = st.tabs([
+
+    tab1, tab2, tab3, tab4 = st.tabs([
         "📊 Analysis",
         "🤖 AI Insights",
-        "📄 Resume Preview"
+        "📄 Resume Preview",
+        "📥 Report",
     ])
-    
+
     with tab1:
         render_analysis_tab(
             st.session_state.ats_score,
             st.session_state.skill_match_percentage,
             st.session_state.matched,
-            st.session_state.missing
+            st.session_state.missing,
         )
 
     with tab2:
@@ -190,8 +111,32 @@ if st.session_state.analysis_complete:
     with tab3:
         render_resume_tab(st.session_state.resume_text)
 
+    with tab4:
+        render_report_tab(
+            st.session_state.ats_score,
+            st.session_state.skill_match_percentage,
+            st.session_state.matched,
+            st.session_state.missing,
+            st.session_state.analysis,
+        )
+
+    st.write("")
+
+    if st.button("🔄 Analyze Another Resume"):
+        for key in (
+            "analysis_complete",
+            "resume_text",
+            "matched",
+            "missing",
+            "ats_score",
+            "skill_match_percentage",
+            "analysis",
+        ):
+            st.session_state.pop(key, None)
+
+        st.rerun()
+
 # =====================================
 # Footer
 # =====================================
-
 show_footer()
