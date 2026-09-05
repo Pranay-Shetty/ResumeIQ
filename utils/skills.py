@@ -125,7 +125,14 @@ _SUPERSEDED_BY = {
 
 def _pattern_for(skill: str) -> str:
     if skill in _SPECIAL_BOUNDARY_SKILLS:
-        return r"(?<![\w.]){}(?![\w.])".format(re.escape(skill))
+        # \b doesn't work around characters like "+", "#", "." since
+        # they aren't word characters -- but excluding "." from the
+        # boundary itself (as this used to) breaks the common case of
+        # the skill sitting right at the end of a sentence, e.g.
+        # "...experience with C#." A trailing/leading "." is normally
+        # just punctuation, not part of the token, so only word
+        # characters should block the match here.
+        return r"(?<!\w){}(?!\w)".format(re.escape(skill))
     return r"\b" + re.escape(skill) + r"\b"
 
 
