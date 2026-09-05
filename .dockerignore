@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.git/
+.github/
+.streamlit/secrets.toml
+uploads/
+reports/
+tests/
+docs/
+README.md

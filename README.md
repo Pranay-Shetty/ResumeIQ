@@ -45,10 +45,33 @@ An AI-powered Resume Analyzer that compares resumes against job descriptions and
 - [x] Interview question generator
 - [x] Resume rewrite suggestions
 - [x] Multi-resume comparison
-- [ ] Automated test suite
-- [ ] CI (GitHub Actions)
-- [ ] Docker deployment
+- [x] Automated test suite
+- [x] CI (GitHub Actions)
+- [x] Docker deployment
 - [ ] Live deployment (Streamlit Community Cloud)
+
+## 🧪 Testing
+
+```bash
+pip install -r requirements-dev.txt
+pytest -v
+```
+
+Tests cover the rule-based scoring logic (ATS breakdown, skill matching,
+content similarity), Pydantic model validation, resume parsing, the
+multi-resume comparison pipeline, and the "no API key configured" error
+path for every AI service. A GitHub Actions workflow
+(`.github/workflows/tests.yml`) runs the suite on every push and pull
+request to `main`.
+
+## 🐳 Docker
+
+```bash
+docker build -t ai-resume-analyzer .
+docker run -p 8501:8501 --env-file .env ai-resume-analyzer
+```
+
+Then open http://localhost:8501.
 
 ## ⚙️ Setup
 
