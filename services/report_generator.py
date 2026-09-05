@@ -61,10 +61,16 @@ def generate_report_pdf(
     missing_skills,
     analysis=None,
     interview_prep=None,
+    ats_breakdown=None,
+    content_similarity=None,
+    rewrite=None,
+    cover_letter=None,
 ) -> bytes:
     """
     Build a downloadable PDF summary of the resume analysis
-    (rule-based ATS score, skill match, and AI insights).
+    (rule-based ATS score + breakdown, skill match, content
+    similarity, AI insights, rewrite suggestions, interview prep,
+    and cover letter, where available).
 
     Returns raw PDF bytes suitable for st.download_button.
     """
@@ -77,8 +83,20 @@ def generate_report_pdf(
     pdf.body_text(f"Rule-Based ATS Score: {ats_score}/100")
     pdf.body_text(f"Job Description Skill Match: {skill_match_percentage}%")
 
+    if content_similarity is not None:
+        pdf.body_text(f"Content Similarity (TF-IDF): {content_similarity}%")
+
     if analysis is not None:
         pdf.body_text(f"AI ATS Score: {analysis.ats_score}/100")
+
+    if ats_breakdown:
+        pdf.section_title("ATS Score Breakdown")
+        for category in ats_breakdown.values():
+            pdf.body_text(
+                f"{category['label']}: {category['score']:.0f}/{category['max']} "
+                f"({category.get('detail', '')})",
+                bullet=True,
+            )
 
     # ---------- Skills ----------
     pdf.section_title("Matched Skills")
@@ -121,6 +139,21 @@ def generate_report_pdf(
             "(check that OPENROUTER_API_KEY is configured)."
         )
 
+    # ---------- Rewrite Suggestions ----------
+    if rewrite is not None:
+        pdf.add_page()
+        pdf.section_title("Resume Rewrite Suggestions")
+
+        for i, item in enumerate(rewrite.rewrites, start=1):
+            pdf.body_text(f"{i}. Original: {item.original}")
+            pdf.body_text(f"Improved: {item.improved}", bullet=True)
+            pdf.body_text(f"Why: {item.reason}", bullet=True)
+
+        if rewrite.general_advice:
+            pdf.section_title("General Resume Advice")
+            for advice in rewrite.general_advice:
+                pdf.body_text(advice, bullet=True)
+
     # ---------- Interview Prep ----------
     if interview_prep is not None:
         pdf.add_page()
@@ -134,5 +167,11 @@ def generate_report_pdf(
             pdf.section_title("Interview Tips For This Role")
             for tip in interview_prep.tips:
                 pdf.body_text(tip, bullet=True)
+
+    # ---------- Cover Letter ----------
+    if cover_letter is not None:
+        pdf.add_page()
+        pdf.section_title("Cover Letter")
+        pdf.body_text(cover_letter.cover_letter)
 
     return bytes(pdf.output())

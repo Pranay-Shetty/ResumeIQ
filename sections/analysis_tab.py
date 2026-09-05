@@ -2,6 +2,7 @@ import streamlit as st
 
 from components.dashboard_card import dashboard_card
 from components.score_card import show_score
+from components.score_breakdown import show_score_breakdown
 from components.skills_panel import show_skills
 from components.charts import show_skill_chart
 
@@ -11,6 +12,8 @@ def render_analysis_tab(
     skill_match_percentage,
     matched,
     missing,
+    ats_breakdown=None,
+    content_similarity=None,
 ):
     """
     Render Analysis Dashboard
@@ -69,12 +72,20 @@ def render_analysis_tab(
         )
 
     with col4:
-        dashboard_card(
-            "AI Confidence",
-            "High",
-            "Analysis Complete",
-            "🤖",
-        )
+        if content_similarity is not None:
+            dashboard_card(
+                "Content Similarity",
+                f"{content_similarity}%",
+                "TF-IDF Match to JD",
+                "🧠",
+            )
+        else:
+            dashboard_card(
+                "AI Confidence",
+                "High",
+                "Analysis Complete",
+                "🤖",
+            )
 
     st.write("")
     st.divider()
@@ -86,6 +97,11 @@ def render_analysis_tab(
     st.subheader("🎯 ATS Score")
 
     show_score(ats_score)
+
+    if ats_breakdown:
+        st.write("")
+        st.markdown("**Score Breakdown**")
+        show_score_breakdown(ats_breakdown)
 
     st.divider()
 

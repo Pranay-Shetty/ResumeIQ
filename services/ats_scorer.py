@@ -1,32 +1,88 @@
 import re
 
 
-def calculate_ats_score(resume_text, matched_skills, jd_skills):
+def _count_quantified_lines(resume_text):
     """
-    Calculate a simple ATS score.
+    Rough heuristic for "quantified achievements": how many
+    substantial lines (long enough to plausibly be a bullet point,
+    not a header/name/date) contain a number, percentage, or
+    currency amount.
     """
+    lines = [line.strip() for line in resume_text.splitlines() if line.strip()]
+    content_lines = [line for line in lines if len(line) >= 25]
 
-    score = 0
+    if not content_lines:
+        return 0, 0
 
-    # ---------- Skill Match (70 points) ----------
+    quantified = [line for line in content_lines if re.search(r"\d", line)]
+
+    return len(quantified), len(content_lines)
+
+
+def calculate_ats_score_breakdown(resume_text, matched_skills, jd_skills):
+    """
+    Breaks the rule-based ATS score down into the categories that
+    make it up, so the UI can show *why* a resume scored what it
+    scored instead of just a single opaque number.
+
+    Categories and weights (sum to 100):
+      - Keyword / Skill Match     : 60
+      - Quantified Achievements   : 15
+      - Resume Length             : 15
+      - Contact Info              : 10
+    """
+    breakdown = {}
+
+    # ---------- Keyword / Skill Match (60 points) ----------
     if jd_skills:
-        skill_score = (len(matched_skills) / len(jd_skills)) * 70
+        skill_score = (len(matched_skills) / len(jd_skills)) * 60
+        skill_detail = f"{len(matched_skills)} of {len(jd_skills)} required skills found"
     else:
-        skill_score = 70
+        skill_score = 60
+        skill_detail = "No specific skills required by this job description"
 
-    score += skill_score
+    breakdown["skill_match"] = {
+        "label": "Keyword / Skill Match",
+        "score": round(skill_score, 1),
+        "max": 60,
+        "detail": skill_detail,
+    }
 
-    # ---------- Resume Length (20 points) ----------
+    # ---------- Quantified Achievements (15 points) ----------
+    quantified, total_lines = _count_quantified_lines(resume_text)
+
+    if total_lines:
+        achievement_score = round((quantified / total_lines) * 15, 1)
+        achievement_detail = f"{quantified} of {total_lines} lines include a number or metric"
+    else:
+        achievement_score = 0
+        achievement_detail = "Not enough resume text to evaluate"
+
+    breakdown["achievements"] = {
+        "label": "Quantified Achievements",
+        "score": achievement_score,
+        "max": 15,
+        "detail": achievement_detail,
+    }
+
+    # ---------- Resume Length (15 points) ----------
     words = len(resume_text.split())
 
     if 300 <= words <= 1000:
-        score += 20
+        length_score = 15
     elif 200 <= words < 300:
-        score += 15
+        length_score = 11
     elif words > 1000:
-        score += 15
+        length_score = 11
     else:
-        score += 5
+        length_score = 4
+
+    breakdown["length"] = {
+        "label": "Resume Length",
+        "score": length_score,
+        "max": 15,
+        "detail": f"{words} words",
+    }
 
     # ---------- Contact Info (10 points) ----------
     email = re.search(r"[\w.+-]+@[\w-]+\.[\w.-]+", resume_text)
@@ -39,10 +95,28 @@ def calculate_ats_score(resume_text, matched_skills, jd_skills):
         resume_text,
     )
 
+    contact_score = (5 if email else 0) + (5 if phone else 0)
+    found = []
     if email:
-        score += 5
-
+        found.append("email")
     if phone:
-        score += 5
+        found.append("phone")
 
-    return round(score)
+    breakdown["contact"] = {
+        "label": "Contact Info",
+        "score": contact_score,
+        "max": 10,
+        "detail": (", ".join(found).capitalize() + " found") if found else "No email or phone detected",
+    }
+
+    return breakdown
+
+
+def calculate_ats_score(resume_text, matched_skills, jd_skills):
+    """
+    Total rule-based ATS score (0-100). Kept as a thin wrapper around
+    calculate_ats_score_breakdown so existing callers that only need
+    the single number don't have to change.
+    """
+    breakdown = calculate_ats_score_breakdown(resume_text, matched_skills, jd_skills)
+    return round(sum(category["score"] for category in breakdown.values()))

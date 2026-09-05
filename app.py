@@ -22,9 +22,12 @@ from components.upload_panel import render_upload_panel
 # broken/dead links cluttering the sidebar.
 from sections.analysis_tab import render_analysis_tab
 from sections.ai_tab import render_ai_tab
+from sections.rewrite_tab import render_rewrite_tab
 from sections.interview_prep_tab import render_interview_prep_tab
+from sections.cover_letter_tab import render_cover_letter_tab
 from sections.resume_preview_tab import render_resume_tab
 from sections.report_tab import render_report_tab
+from sections.compare_tab import render_compare_section
 
 # =====================================
 # Services
@@ -67,20 +70,28 @@ for _key, _value in _DEFAULTS.items():
 
 RESULT_KEYS = (
     "resume_text",
+    "job_description",
     "matched",
     "missing",
     "ats_score",
+    "ats_breakdown",
+    "content_similarity",
     "skill_match_percentage",
     "analysis",
     "ai_error",
     "interview_prep",
     "interview_prep_error",
+    "rewrite",
+    "rewrite_error",
     "uploaded_resume_name",
 )
 
+# On-demand extras that shouldn't carry over to a newly-analyzed resume.
+_RESET_EXTRA_KEYS = ("cover_letter", "cover_letter_error")
+
 
 def reset_analysis():
-    for key in RESULT_KEYS + ("analysis_complete", "show_summary_dialog"):
+    for key in RESULT_KEYS + _RESET_EXTRA_KEYS + ("analysis_complete", "show_summary_dialog"):
         st.session_state.pop(key, None)
     st.session_state.upload_reset_key += 1
 
@@ -116,6 +127,12 @@ def show_results_summary():
             "interview questions are ready in the Interview Prep tab."
         )
 
+    if st.session_state.get("rewrite") is not None and st.session_state.rewrite.rewrites:
+        st.info(
+            f"✍️ {len(st.session_state.rewrite.rewrites)} rewrite suggestions "
+            "are ready in the Rewrite Suggestions tab."
+        )
+
     st.write("")
 
     if st.button("View Full Analysis →", use_container_width=True, type="primary"):
@@ -128,11 +145,19 @@ def show_results_summary():
 # =====================================
 load_css()
 show_hero()
-show_sidebar(
+app_mode = show_sidebar(
     api_key_missing=not bool(os.getenv("OPENROUTER_API_KEY")),
     ats_score=st.session_state.get("ats_score") if st.session_state.analysis_complete else None,
     skill_match_percentage=st.session_state.get("skill_match_percentage") if st.session_state.analysis_complete else None,
 )
+
+# =====================================
+# Compare Mode
+# =====================================
+if app_mode == "compare":
+    render_compare_section()
+    show_footer()
+    st.stop()
 
 # =====================================
 # Upload Section
@@ -191,10 +216,12 @@ if st.session_state.analysis_complete:
     if st.session_state.show_summary_dialog:
         show_results_summary()
 
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
         "📊 Analysis",
         "🤖 AI Insights",
+        "✍️ Rewrite Suggestions",
         "🎤 Interview Prep",
+        "✉️ Cover Letter",
         "📄 Resume Preview",
         "📥 Report",
     ])
@@ -205,6 +232,8 @@ if st.session_state.analysis_complete:
             st.session_state.skill_match_percentage,
             st.session_state.matched,
             st.session_state.missing,
+            st.session_state.get("ats_breakdown"),
+            st.session_state.get("content_similarity"),
         )
 
     with tab2:
@@ -214,15 +243,27 @@ if st.session_state.analysis_complete:
         )
 
     with tab3:
+        render_rewrite_tab(
+            st.session_state.get("rewrite"),
+            st.session_state.get("rewrite_error"),
+        )
+
+    with tab4:
         render_interview_prep_tab(
             st.session_state.interview_prep,
             st.session_state.get("interview_prep_error"),
         )
 
-    with tab4:
+    with tab5:
+        render_cover_letter_tab(
+            st.session_state.resume_text,
+            st.session_state.get("job_description", ""),
+        )
+
+    with tab6:
         render_resume_tab(st.session_state.resume_text)
 
-    with tab5:
+    with tab7:
         render_report_tab(
             st.session_state.ats_score,
             st.session_state.skill_match_percentage,
@@ -230,6 +271,9 @@ if st.session_state.analysis_complete:
             st.session_state.missing,
             st.session_state.analysis,
             st.session_state.interview_prep,
+            st.session_state.get("ats_breakdown"),
+            st.session_state.get("content_similarity"),
+            st.session_state.get("rewrite"),
         )
 
 # =====================================
