@@ -16,7 +16,7 @@ client = OpenAI(
     api_key=os.getenv("OPENROUTER_API_KEY"),
     default_headers={
         "HTTP-Referer": "http://localhost:8501",
-        "X-Title": "AI Resume Analyzer",
+        "X-Title": "ResumeIQ",
     },
 )
 

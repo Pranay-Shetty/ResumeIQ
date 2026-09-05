@@ -5,11 +5,12 @@ def show_hero():
     st.markdown(
         """
         <div class="hero">
-            <h1>🤖 AI Resume Analyzer</h1>
+            <h1>🧠 ResumeIQ</h1>
             <div class="hero-text">
-                Analyze your resume against any job description using AI.<br><br>
-                Get ATS scoring, skill matching, recruiter insights,
-                missing keywords and personalized recommendations.
+                Analyze your resume against any job description with AI.<br><br>
+                Get an ATS score breakdown, skill-gap analysis, recruiter-style
+                insights, rewrite suggestions, and a tailored cover letter --
+                all in one place.
             </div>
         </div>
         """,

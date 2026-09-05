@@ -1,9 +1,9 @@
 import plotly.graph_objects as go
 import streamlit as st
 
-MATCHED_COLOR = "#6366F1"
-MISSING_COLOR = "#26314A"
-TEXT_COLOR = "#E5E7EB"
+MATCHED_COLOR = "#10B981"
+MISSING_COLOR = "#334155"
+TEXT_COLOR = "#E2E8F0"
 MUTED_COLOR = "#94A3B8"
 
 
@@ -30,7 +30,7 @@ def show_skill_chart(matched, missing):
                 hole=0.68,
                 marker=dict(
                     colors=[MATCHED_COLOR, MISSING_COLOR],
-                    line=dict(color="#0B1120", width=3),
+                    line=dict(color="#0F172A", width=3),
                 ),
                 textinfo="label+value",
                 textfont=dict(size=13, color=TEXT_COLOR),

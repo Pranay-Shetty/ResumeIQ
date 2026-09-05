@@ -1,11 +1,10 @@
-import streamlit as st
-
-
 def show_footer():
-
-    st.divider()
-
-    st.markdown(
-        '<div class="app-footer">Built with ❤️ using Python, Streamlit and OpenAI</div>',
-        unsafe_allow_html=True,
-    )
+    """
+    Intentionally minimal. Earlier versions rendered a "Built with..."
+    tech-stack line here -- dropped for a cleaner, more professional
+    footprint on the page (an end user doesn't need to know the stack
+    a tool is built on). Kept as a no-op function, rather than removing
+    the call sites, so a real footer (e.g. a version tag or a link)
+    can be added later without touching app.py.
+    """
+    return

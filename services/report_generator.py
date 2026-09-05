@@ -19,7 +19,7 @@ class ReportPDF(FPDF):
     def header(self):
         self.set_font("Helvetica", "B", 16)
         self.set_text_color(30, 41, 59)
-        self.cell(0, 12, "AI Resume Analyzer - Report", ln=True, align="C")
+        self.cell(0, 12, "ResumeIQ - Analysis Report", ln=True, align="C")
 
         self.set_font("Helvetica", "", 9)
         self.set_text_color(100, 100, 100)

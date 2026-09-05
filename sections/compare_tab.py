@@ -5,8 +5,8 @@ import streamlit as st
 from services.comparison_service import compare_resumes
 
 MAX_RESUMES = 5
-BAR_COLOR = "#6366F1"
-TEXT_COLOR = "#E5E7EB"
+BAR_COLOR = "#10B981"
+TEXT_COLOR = "#E2E8F0"
 
 
 def render_compare_section():
@@ -97,7 +97,7 @@ def render_compare_section():
         margin=dict(t=20, b=10, l=10, r=10),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        yaxis=dict(title="ATS Score", color=TEXT_COLOR, gridcolor="#26314A"),
+        yaxis=dict(title="ATS Score", color=TEXT_COLOR, gridcolor="#334155"),
         xaxis=dict(color=TEXT_COLOR),
         font=dict(color=TEXT_COLOR),
     )

@@ -8,8 +8,9 @@ def show_sidebar(
 ):
     """
     Renders the sidebar and returns the selected app mode:
-    "single" (analyze one resume) or "compare" (score several
-    resumes against the same job description side by side).
+    "single" (analyze one resume), "compare" (score several resumes
+    against the same job description side by side), or "history"
+    (revisit past analyses from this session).
     """
 
     with st.sidebar:
@@ -17,9 +18,9 @@ def show_sidebar(
         st.markdown(
             """
             <div class="sidebar-brand">
-                <div class="sidebar-brand-icon">🤖</div>
-                <div class="sidebar-brand-title">AI Resume Analyzer</div>
-                <div class="sidebar-brand-version">Version 1.1</div>
+                <div class="sidebar-brand-icon">🧠</div>
+                <div class="sidebar-brand-title">ResumeIQ</div>
+                <div class="sidebar-brand-version">Version 1.2</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -63,25 +64,6 @@ def show_sidebar(
                 """,
                 unsafe_allow_html=True,
             )
-
-        st.markdown(
-            """
-            <div class="sidebar-features">
-                <div class="feature-item">✅ Resume Parsing</div>
-                <div class="feature-item">✅ ATS Score Breakdown</div>
-                <div class="feature-item">✅ Skill Matching</div>
-                <div class="feature-item">✅ Content Similarity</div>
-                <div class="feature-item">✅ AI Suggestions</div>
-                <div class="feature-item">✅ Rewrite Suggestions</div>
-                <div class="feature-item">✅ Interview Prep Q&amp;A</div>
-                <div class="feature-item">✅ Cover Letter Generator</div>
-                <div class="feature-item">✅ Compare Resumes</div>
-                <div class="feature-item">✅ Session History</div>
-                <div class="feature-item">✅ PDF Report Export</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
 
         if api_key_missing:
             st.markdown(

@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from components.sidebar import show_sidebar
 from components.footer import show_footer
 from components.hero import show_hero
+from components.feature_grid import show_feature_highlights
 from components.upload_panel import render_upload_panel
 
 # =========================
@@ -42,8 +43,8 @@ load_dotenv()
 # Page Config
 # =====================================
 st.set_page_config(
-    page_title="AI Resume Analyzer",
-    page_icon="🤖",
+    page_title="ResumeIQ",
+    page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -173,6 +174,8 @@ if app_mode == "history":
 # slim status bar so the results tabs sit near the top of the page
 # instead of requiring a scroll past the full upload UI.
 if not st.session_state.analysis_complete:
+    show_feature_highlights()
+
     uploaded_resume, job_description, analyze_clicked = render_upload_panel(
         reset_key=st.session_state.upload_reset_key
     )

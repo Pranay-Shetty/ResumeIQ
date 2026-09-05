@@ -1,6 +1,8 @@
-# 📄 AI Resume Analyzer
+# 🧠 ResumeIQ
 
-An AI-powered Resume Analyzer that compares resumes against job descriptions and provides ATS scoring, skill-gap analysis, and AI-powered suggestions.
+An AI-powered resume analyzer that compares your resume against a job description and gives you an ATS score breakdown, skill-gap analysis, AI-written insights, rewrite suggestions, a cover letter, and interview prep — all in one place.
+
+*(Formerly "AI Resume Analyzer" — renamed for a clearer identity.)*
 
 ## 🚀 Features
 
@@ -34,7 +36,7 @@ An AI-powered Resume Analyzer that compares resumes against job descriptions and
 
 ## 📌 Project Status
 
-✅ Feature-complete (v1.1) — core pipeline plus rewrite suggestions, cover letter generation, and multi-resume comparison; ongoing polish and bug fixes.
+✅ Feature-complete (v1.2) — core pipeline plus rewrite suggestions, cover letter generation, multi-resume comparison, session history, and a refreshed UI; ongoing polish and bug fixes.
 
 ## 📅 Roadmap
 
@@ -52,6 +54,7 @@ An AI-powered Resume Analyzer that compares resumes against job descriptions and
 - [x] Automated test suite
 - [x] CI (GitHub Actions)
 - [x] Docker deployment
+- [x] Rebrand + UI refresh (slate + emerald theme, feature showcase)
 - [ ] Live deployment (Streamlit Community Cloud)
 
 ## 🧪 Testing
@@ -63,16 +66,16 @@ pytest -v
 
 Tests cover the rule-based scoring logic (ATS breakdown, skill matching,
 content similarity), Pydantic model validation, resume parsing, the
-multi-resume comparison pipeline, and the "no API key configured" error
-path for every AI service. A GitHub Actions workflow
+multi-resume comparison pipeline, session history, and the "no API key
+configured" error path for every AI service. A GitHub Actions workflow
 (`.github/workflows/tests.yml`) runs the suite on every push and pull
 request to `main`.
 
 ## 🐳 Docker
 
 ```bash
-docker build -t ai-resume-analyzer .
-docker run -p 8501:8501 --env-file .env ai-resume-analyzer
+docker build -t resumeiq .
+docker run -p 8501:8501 --env-file .env resumeiq
 ```
 
 Then open http://localhost:8501.
@@ -100,4 +103,3 @@ streamlit run app.py
 ## 📷 Screenshots
 
 Coming soon.
-
