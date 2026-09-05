@@ -12,14 +12,15 @@ Two crops of the same source logo live in assets/:
 """
 
 import base64
-from functools import lru_cache
 from pathlib import Path
 
 _ASSETS_DIR = Path(__file__).resolve().parent.parent / "assets"
 
 
-@lru_cache(maxsize=None)
 def _b64(filename: str) -> str:
+    # Not cached on purpose: these are small (tens of KB) and re-encoding
+    # on every rerun means swapping the logo file takes effect immediately,
+    # with no stale copy surviving in memory until the app is restarted.
     return base64.b64encode((_ASSETS_DIR / filename).read_bytes()).decode("ascii")
 
 

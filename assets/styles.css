@@ -88,7 +88,7 @@ hr {
 
 .brand-logo-full {
     display: block;
-    margin-bottom: 16px;
+    margin: 0 auto 16px;
     filter: drop-shadow(0 8px 22px rgba(37, 99, 235, 0.35));
 }
 
@@ -112,13 +112,15 @@ hr {
     padding: 8px 0 28px;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 28px;
+    text-align: center;
 }
 
 .hero-text {
     color: var(--color-text-muted);
     font-size: 15px;
-    max-width: 720px;
+    max-width: 620px;
     line-height: 1.6;
+    margin: 0 auto;
 }
 
 /* ==========================
@@ -442,9 +444,8 @@ textarea, [data-testid="stTextArea"] textarea {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    padding: 20px 22px;
-    margin-bottom: 16px;
-    min-height: 128px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
     transition: all var(--transition);
 }
 
@@ -454,11 +455,29 @@ textarea, [data-testid="stTextArea"] textarea {
     box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3), var(--shadow-glow);
 }
 
+.feature-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.feature-card-head .icon-badge {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+.feature-card-head .icon-badge svg {
+    width: 15px;
+    height: 15px;
+}
+
 .feature-card-title {
     font-weight: 700;
-    font-size: 15px;
+    font-size: 14.5px;
     color: var(--color-text);
-    margin-bottom: 6px;
 }
 
 .feature-card-desc {

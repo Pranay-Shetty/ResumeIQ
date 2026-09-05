@@ -23,7 +23,9 @@ def show_feature_highlights():
     """
     A compact, always-visible showcase of what the tool can do, shown
     on the landing/upload screen so a first-time user sees the full
-    feature set up front.
+    feature set up front. Each card puts its icon next to the title
+    (a single header row) rather than stacked above it, to keep the
+    section short.
 
     Renders each card as its own st.markdown call inside a Streamlit
     column, rather than one big HTML string for the whole grid. The
@@ -43,8 +45,10 @@ def show_feature_highlights():
             with column:
                 st.markdown(
                     f'<div class="feature-card">'
+                    f'<div class="feature-card-head">'
                     f'{icon}'
                     f'<div class="feature-card-title">{title}</div>'
+                    f'</div>'
                     f'<div class="feature-card-desc">{desc}</div>'
                     f'</div>',
                     unsafe_allow_html=True,

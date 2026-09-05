@@ -7,7 +7,7 @@ def show_hero():
     st.markdown(
         f"""
         <div class="hero">
-            {brand_logo_full_html(300)}
+            {brand_logo_full_html(340)}
             <div class="hero-text">
                 Analyze your resume against any job description with AI --
                 get an ATS score breakdown, skill-gap analysis, recruiter-style
