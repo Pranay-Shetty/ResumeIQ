@@ -1,5 +1,7 @@
 import json
 
+import openai
+
 from pydantic import ValidationError
 
 from models.analysis_model import ResumeAnalysis
@@ -84,6 +86,21 @@ def analyze_resume(resume_text, job_description):
             "The AI model's response didn't match the expected fields "
             "(ats_score, strengths, weaknesses, missing_skills, "
             "suggestions, professional_summary)."
+        )
+
+    except openai.RateLimitError as e:
+        print(f"❌ Rate Limited: {e}")
+        return None, (
+            "OpenRouter is rate-limiting requests right now (the client "
+            "already retried automatically). Wait a moment and try again."
+        )
+
+    except (openai.APITimeoutError, openai.APIConnectionError) as e:
+        print(f"❌ Network Error: {e}")
+        return None, (
+            "The request to OpenRouter timed out or the connection was "
+            "interrupted, even after retrying. Check your network "
+            "connection and try again."
         )
 
     except Exception as e:

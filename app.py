@@ -28,11 +28,13 @@ from sections.cover_letter_tab import render_cover_letter_tab
 from sections.resume_preview_tab import render_resume_tab
 from sections.report_tab import render_report_tab
 from sections.compare_tab import render_compare_section
+from sections.history_tab import render_history_section
 
 # =====================================
 # Services
 # =====================================
 from services.resume_analyzer import analyze_resume_file
+from services.history_service import add_to_history
 
 load_dotenv()
 
@@ -159,6 +161,11 @@ if app_mode == "compare":
     show_footer()
     st.stop()
 
+if app_mode == "history":
+    render_history_section()
+    show_footer()
+    st.stop()
+
 # =====================================
 # Upload Section
 # =====================================
@@ -198,13 +205,21 @@ if analyze_clicked:
         st.error("Please paste a job description.")
         st.stop()
 
-    with st.spinner("Analyzing your resume and preparing interview questions..."):
+    with st.status("Starting analysis...", expanded=True) as status:
         try:
-            analyze_resume_file(uploaded_resume, job_description)
+            analyze_resume_file(
+                uploaded_resume,
+                job_description,
+                progress_callback=lambda message: status.write(message),
+            )
         except Exception as e:
+            status.update(label="Analysis failed", state="error")
             st.error(f"Something went wrong while analyzing your resume: {e}")
             st.stop()
 
+        status.update(label="Analysis complete ✅", state="complete")
+
+    add_to_history()
     st.session_state.show_summary_dialog = True
     st.rerun()
 

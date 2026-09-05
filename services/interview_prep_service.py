@@ -1,5 +1,7 @@
 import json
 
+import openai
+
 from pydantic import ValidationError
 
 from models.interview_prep_model import InterviewPrep
@@ -91,6 +93,21 @@ def generate_interview_prep(resume_text, job_description):
         return None, (
             "The AI model's response didn't match the expected fields "
             "(questions[].category/question/suggested_answer, tips)."
+        )
+
+    except openai.RateLimitError as e:
+        print(f"❌ Rate Limited: {e}")
+        return None, (
+            "OpenRouter is rate-limiting requests right now (the client "
+            "already retried automatically). Wait a moment and try again."
+        )
+
+    except (openai.APITimeoutError, openai.APIConnectionError) as e:
+        print(f"❌ Network Error: {e}")
+        return None, (
+            "The request to OpenRouter timed out or the connection was "
+            "interrupted, even after retrying. Check your network "
+            "connection and try again."
         )
 
     except Exception as e:

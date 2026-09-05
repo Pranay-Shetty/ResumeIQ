@@ -14,6 +14,8 @@ An AI-powered Resume Analyzer that compares resumes against job descriptions and
 - AI-generated, tone-adjustable cover letter, editable before download
 - AI-generated interview prep kit (tailored questions + suggested answers + role tips)
 - Compare multiple resumes against the same job description side by side, ranked by ATS score
+- Session history: revisit or reload any past analysis from the current session without re-uploading or re-running AI calls
+- Step-by-step progress during analysis, and automatic retry with backoff on transient AI-provider errors (rate limits, timeouts, 5xx)
 - Downloadable PDF analysis report
 
 ## 🛠️ Tech Stack
@@ -28,6 +30,7 @@ An AI-powered Resume Analyzer that compares resumes against job descriptions and
 - Pandas (resume comparison table)
 - Pydantic (AI response validation)
 - fpdf2 (PDF report generation)
+- tenacity (retry with backoff on transient AI-provider errors)
 
 ## 📌 Project Status
 
@@ -45,6 +48,7 @@ An AI-powered Resume Analyzer that compares resumes against job descriptions and
 - [x] Interview question generator
 - [x] Resume rewrite suggestions
 - [x] Multi-resume comparison
+- [x] Session history
 - [x] Automated test suite
 - [x] CI (GitHub Actions)
 - [x] Docker deployment

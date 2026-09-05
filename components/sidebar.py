@@ -27,11 +27,17 @@ def show_sidebar(
 
         mode_label = st.radio(
             "Mode",
-            ["🔍 Analyze One Resume", "🆚 Compare Resumes"],
+            ["🔍 Analyze One Resume", "🆚 Compare Resumes", "📚 History"],
             key="app_mode",
             label_visibility="collapsed",
         )
-        mode = "compare" if mode_label.startswith("🆚") else "single"
+
+        if mode_label.startswith("🆚"):
+            mode = "compare"
+        elif mode_label.startswith("📚"):
+            mode = "history"
+        else:
+            mode = "single"
 
         st.markdown("---")
 
@@ -70,6 +76,7 @@ def show_sidebar(
                 <div class="feature-item">✅ Interview Prep Q&amp;A</div>
                 <div class="feature-item">✅ Cover Letter Generator</div>
                 <div class="feature-item">✅ Compare Resumes</div>
+                <div class="feature-item">✅ Session History</div>
                 <div class="feature-item">✅ PDF Report Export</div>
             </div>
             """,
