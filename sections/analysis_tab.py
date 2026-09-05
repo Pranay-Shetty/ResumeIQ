@@ -5,6 +5,14 @@ from components.score_card import show_score
 from components.score_breakdown import show_score_breakdown
 from components.skills_panel import show_skills
 from components.charts import show_skill_chart
+from components.icons import (
+    ICON_TARGET,
+    ICON_CHECKLIST,
+    ICON_CHECK_CIRCLE,
+    ICON_ALERT,
+    ICON_LAYERS,
+    ICON_SPARKLE,
+)
 
 
 def render_analysis_tab(
@@ -36,6 +44,7 @@ def render_analysis_tab(
         "ATS Score",
         f"{ats_score}%",
         "Resume Compatibility",
+        icon=ICON_TARGET,
     )
 
     st.write("")
@@ -47,6 +56,7 @@ def render_analysis_tab(
             "Skill Match",
             f"{skill_match_percentage}%",
             "Job Match",
+            icon=ICON_CHECKLIST,
         )
 
     with col2:
@@ -54,6 +64,7 @@ def render_analysis_tab(
             "Matched Skills",
             str(len(matched)),
             "Skills Found",
+            icon=ICON_CHECK_CIRCLE,
         )
 
     st.write("")
@@ -65,6 +76,7 @@ def render_analysis_tab(
             "Missing Skills",
             str(len(missing)),
             "Need Improvement",
+            icon=ICON_ALERT,
         )
 
     with col4:
@@ -73,12 +85,14 @@ def render_analysis_tab(
                 "Content Similarity",
                 f"{content_similarity}%",
                 "TF-IDF Match to JD",
+                icon=ICON_LAYERS,
             )
         else:
             dashboard_card(
                 "AI Confidence",
                 "High",
                 "Analysis Complete",
+                icon=ICON_SPARKLE,
             )
 
     st.write("")

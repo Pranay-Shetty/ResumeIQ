@@ -1,22 +1,41 @@
 """
-Shared brand mark (logo) for ResumeIQ.
+Shared brand assets for ResumeIQ: the actual logo artwork (a chrome/blue
+lockup supplied by the project owner), inlined as base64 data URIs so a
+single st.markdown() call can render logo + text together without
+Streamlit needing to serve the file separately.
 
-A single small, flat SVG icon -- a document with a folded corner and a
-checkmark badge, standing in for "your resume, scored" -- used in both
-the landing-page header and the sidebar brand block. Keeping it in one
-place means a future icon tweak is a single edit, not a hunt across
-components.
+Two crops of the same source logo live in assets/:
+  - resumeiq-logo-full.png  -- full lockup (icon + wordmark + tagline),
+    used in the landing-page header.
+  - resumeiq-logo-mark.png  -- the icon glyph only, cropped tight, used
+    anywhere space is too narrow for the full lockup (the sidebar).
 """
 
-BRAND_MARK_SVG = (
-    '<svg class="brand-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" '
-    'role="img" aria-label="ResumeIQ logo">'
-    '<path class="brand-mark-page" d="M10 4h14l6 6v26a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>'
-    '<path class="brand-mark-fold" d="M24 4v6h6z"/>'
-    '<line class="brand-mark-line" x1="13" y1="17" x2="27" y2="17"/>'
-    '<line class="brand-mark-line" x1="13" y1="22" x2="27" y2="22"/>'
-    '<line class="brand-mark-line" x1="13" y1="27" x2="20" y2="27"/>'
-    '<circle class="brand-mark-badge" cx="30" cy="31" r="6.5"/>'
-    '<path class="brand-mark-check" d="M26.8 31.2l2.4 2.3 4.4-4.8"/>'
-    '</svg>'
-)
+import base64
+from functools import lru_cache
+from pathlib import Path
+
+_ASSETS_DIR = Path(__file__).resolve().parent.parent / "assets"
+
+
+@lru_cache(maxsize=None)
+def _b64(filename: str) -> str:
+    return base64.b64encode((_ASSETS_DIR / filename).read_bytes()).decode("ascii")
+
+
+def brand_logo_full_html(width: int = 300) -> str:
+    """Full ResumeIQ lockup (icon + wordmark + tagline) as an <img> tag."""
+    return (
+        '<img class="brand-logo-full" '
+        f'src="data:image/png;base64,{_b64("resumeiq-logo-full.png")}" '
+        f'alt="ResumeIQ -- Smarter Resumes. Brighter Opportunities." style="width:{width}px;">'
+    )
+
+
+def brand_mark_html(size: int = 32) -> str:
+    """Small icon-only mark, for tight spaces like the sidebar."""
+    return (
+        '<img class="brand-mark-img" '
+        f'src="data:image/png;base64,{_b64("resumeiq-logo-mark.png")}" '
+        f'alt="ResumeIQ" style="width:{size}px;height:{size}px;">'
+    )

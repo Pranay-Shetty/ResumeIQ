@@ -1,6 +1,6 @@
 import streamlit as st
 
-from components.brand import BRAND_MARK_SVG
+from components.brand import brand_mark_html
 
 
 def show_sidebar(
@@ -20,7 +20,7 @@ def show_sidebar(
         st.markdown(
             f"""
             <div class="sidebar-brand">
-                {BRAND_MARK_SVG}
+                {brand_mark_html(30)}
                 <div>
                     <div class="sidebar-brand-title">ResumeIQ</div>
                     <div class="sidebar-brand-version">Version 1.2</div>

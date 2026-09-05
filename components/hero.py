@@ -1,19 +1,13 @@
 import streamlit as st
 
-from components.brand import BRAND_MARK_SVG
+from components.brand import brand_logo_full_html
 
 
 def show_hero():
     st.markdown(
         f"""
         <div class="hero">
-            <div class="hero-brand-row">
-                {BRAND_MARK_SVG}
-                <div>
-                    <h1>ResumeIQ</h1>
-                    <div class="hero-tagline">Smarter Resumes. Brighter Opportunities.</div>
-                </div>
-            </div>
+            {brand_logo_full_html(300)}
             <div class="hero-text">
                 Analyze your resume against any job description with AI --
                 get an ATS score breakdown, skill-gap analysis, recruiter-style

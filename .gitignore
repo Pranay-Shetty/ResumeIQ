@@ -22,3 +22,5 @@ reports/
 
 # macOS
 .DS_Store
+# Files delivered via chat during Claude sessions
+Claude outputs/

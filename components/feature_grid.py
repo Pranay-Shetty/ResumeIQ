@@ -1,12 +1,21 @@
 import streamlit as st
 
+from components.icons import (
+    ICON_TARGET,
+    ICON_SPARKLE,
+    ICON_EDIT,
+    ICON_MESSAGE,
+    ICON_MAIL,
+    ICON_COMPARE,
+)
+
 FEATURES = [
-    ("ATS Score Breakdown", "See exactly why your resume scored what it did, broken down by keyword match, achievements, length, and contact info."),
-    ("AI Resume Analysis", "Get recruiter-style strengths, weaknesses, and a tailored professional summary."),
-    ("Rewrite Suggestions", "Weak resume lines rewritten to be stronger and tailored to the job description, with the reasoning behind each change."),
-    ("Interview Prep", "Practice with role-specific interview questions and suggested answers drawn from your own resume."),
-    ("Cover Letter Generator", "Generate a tailored, editable cover letter in the tone you choose, ready to download."),
-    ("Compare Resumes", "Score multiple resume versions against the same job description, side by side, ranked by fit."),
+    (ICON_TARGET, "ATS Score Breakdown", "See exactly why your resume scored what it did, broken down by keyword match, achievements, length, and contact info."),
+    (ICON_SPARKLE, "AI Resume Analysis", "Get recruiter-style strengths, weaknesses, and a tailored professional summary."),
+    (ICON_EDIT, "Rewrite Suggestions", "Weak resume lines rewritten to be stronger and tailored to the job description, with the reasoning behind each change."),
+    (ICON_MESSAGE, "Interview Prep", "Practice with role-specific interview questions and suggested answers drawn from your own resume."),
+    (ICON_MAIL, "Cover Letter Generator", "Generate a tailored, editable cover letter in the tone you choose, ready to download."),
+    (ICON_COMPARE, "Compare Resumes", "Score multiple resume versions against the same job description, side by side, ranked by fit."),
 ]
 
 
@@ -30,10 +39,11 @@ def show_feature_highlights():
 
     for row in rows:
         columns = st.columns(len(row))
-        for column, (title, desc) in zip(columns, row):
+        for column, (icon, title, desc) in zip(columns, row):
             with column:
                 st.markdown(
                     f'<div class="feature-card">'
+                    f'{icon}'
                     f'<div class="feature-card-title">{title}</div>'
                     f'<div class="feature-card-desc">{desc}</div>'
                     f'</div>',
