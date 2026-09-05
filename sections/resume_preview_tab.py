@@ -3,7 +3,7 @@ import streamlit as st
 
 def render_resume_tab(resume_text):
 
-    st.subheader("📄 Resume Preview")
+    st.subheader("Resume Preview")
 
     with st.expander(
         "View Extracted Resume",

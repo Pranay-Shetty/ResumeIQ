@@ -15,7 +15,7 @@ def show_skills(matched, missing):
 
     with col1:
 
-        st.subheader("✅ Matched Skills")
+        st.subheader("Matched Skills")
 
         if matched:
             html = "".join(create_chip(skill, "matched") for skill in sorted(matched))
@@ -25,10 +25,10 @@ def show_skills(matched, missing):
 
     with col2:
 
-        st.subheader("❌ Missing Skills")
+        st.subheader("Missing Skills")
 
         if missing:
             html = "".join(create_chip(skill, "missing") for skill in sorted(missing))
             st.markdown(html, unsafe_allow_html=True)
         else:
-            st.success("No missing skills 🎉")
+            st.success("No missing skills")

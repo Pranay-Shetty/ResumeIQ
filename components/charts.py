@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 import streamlit as st
 
-MATCHED_COLOR = "#10B981"
+MATCHED_COLOR = "#2563EB"
 MISSING_COLOR = "#334155"
 TEXT_COLOR = "#E2E8F0"
 MUTED_COLOR = "#94A3B8"

@@ -71,6 +71,6 @@ def restore_from_history(entry_id) -> bool:
 
     st.session_state.analysis_complete = True
     st.session_state.show_summary_dialog = False
-    st.session_state.app_mode = "🔍 Analyze One Resume"
+    st.session_state.app_mode = "Analyze One Resume"
 
     return True

@@ -18,7 +18,7 @@ def render_report_tab(
     Render the downloadable PDF report tab.
     """
 
-    st.subheader("📥 Download Your Report")
+    st.subheader("Download Your Report")
 
     st.caption(
         "Export a PDF summary of your ATS score breakdown, skill match, "
@@ -44,7 +44,7 @@ def render_report_tab(
         )
 
         st.download_button(
-            label="⬇️ Download Analysis Report (PDF)",
+            label="Download Analysis Report (PDF)",
             data=pdf_bytes,
             file_name="resume_analysis_report.pdf",
             mime="application/pdf",

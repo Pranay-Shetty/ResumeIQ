@@ -44,7 +44,6 @@ load_dotenv()
 # =====================================
 st.set_page_config(
     page_title="ResumeIQ",
-    page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -102,7 +101,7 @@ def reset_analysis():
 # =====================================
 # Results Summary Dialog
 # =====================================
-@st.dialog("✅ Analysis Complete")
+@st.dialog("Analysis Complete")
 def show_results_summary():
     col1, col2 = st.columns(2)
 
@@ -122,17 +121,17 @@ def show_results_summary():
             preview += f", +{len(missing) - 5} more"
         st.warning(f"**Top missing skills:** {preview}")
     else:
-        st.success("No missing skills detected against this job description 🎉")
+        st.success("No missing skills detected against this job description")
 
     if st.session_state.get("interview_prep") is not None:
         st.info(
-            f"🎤 {len(st.session_state.interview_prep.questions)} tailored "
+            f"{len(st.session_state.interview_prep.questions)} tailored "
             "interview questions are ready in the Interview Prep tab."
         )
 
     if st.session_state.get("rewrite") is not None and st.session_state.rewrite.rewrites:
         st.info(
-            f"✍️ {len(st.session_state.rewrite.rewrites)} rewrite suggestions "
+            f"{len(st.session_state.rewrite.rewrites)} rewrite suggestions "
             "are ready in the Rewrite Suggestions tab."
         )
 
@@ -187,11 +186,11 @@ else:
 
         with status_col:
             st.markdown(
-                f"✅ **Analyzed:** {st.session_state.get('uploaded_resume_name', 'your resume')}"
+                f"**Analyzed:** {st.session_state.get('uploaded_resume_name', 'your resume')}"
             )
 
         with action_col:
-            if st.button("🔄 New Resume", use_container_width=True):
+            if st.button("New Resume", use_container_width=True):
                 reset_analysis()
                 st.rerun()
 
@@ -220,7 +219,7 @@ if analyze_clicked:
             st.error(f"Something went wrong while analyzing your resume: {e}")
             st.stop()
 
-        status.update(label="Analysis complete ✅", state="complete")
+        status.update(label="Analysis complete", state="complete")
 
     add_to_history()
     st.session_state.show_summary_dialog = True
@@ -235,13 +234,13 @@ if st.session_state.analysis_complete:
         show_results_summary()
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-        "📊 Analysis",
-        "🤖 AI Insights",
-        "✍️ Rewrite Suggestions",
-        "🎤 Interview Prep",
-        "✉️ Cover Letter",
-        "📄 Resume Preview",
-        "📥 Report",
+        "Analysis",
+        "AI Insights",
+        "Rewrite Suggestions",
+        "Interview Prep",
+        "Cover Letter",
+        "Resume Preview",
+        "Report",
     ])
 
     with tab1:

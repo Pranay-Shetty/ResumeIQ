@@ -32,7 +32,7 @@ def analyze_resume_file(uploaded_resume, job_description, progress_callback=None
 
     extension = uploaded_resume.name.split(".")[-1].lower()
 
-    _progress("📄 Extracting resume text...")
+    _progress("Extracting resume text...")
 
     if extension == "pdf":
         resume_text = extract_pdf_text(uploaded_resume)
@@ -45,7 +45,7 @@ def analyze_resume_file(uploaded_resume, job_description, progress_callback=None
 
     resume_text = clean_text(resume_text)
 
-    _progress("🛠 Matching skills against the job description...")
+    _progress("Matching skills against the job description...")
 
     resume_skills = extract_skills(resume_text)
     jd_skills = extract_skills(job_description)
@@ -64,7 +64,7 @@ def analyze_resume_file(uploaded_resume, job_description, progress_callback=None
     else:
         skill_match_percentage = 0
 
-    _progress("🎯 Calculating ATS score breakdown...")
+    _progress("Calculating ATS score breakdown...")
 
     ats_breakdown = calculate_ats_score_breakdown(
         resume_text,
@@ -73,35 +73,35 @@ def analyze_resume_file(uploaded_resume, job_description, progress_callback=None
     )
     ats_score = round(sum(category["score"] for category in ats_breakdown.values()))
 
-    _progress("🧠 Calculating content similarity...")
+    _progress("Calculating content similarity...")
 
     content_similarity = calculate_content_similarity(
         resume_text,
         job_description,
     )
 
-    _progress("🤖 Running AI resume analysis...")
+    _progress("Running AI resume analysis...")
 
     analysis, ai_error = analyze_resume(
         resume_text,
         job_description
     )
 
-    _progress("🎤 Generating interview prep questions...")
+    _progress("Generating interview prep questions...")
 
     interview_prep, interview_prep_error = generate_interview_prep(
         resume_text,
         job_description,
     )
 
-    _progress("✍️ Generating rewrite suggestions...")
+    _progress("Generating rewrite suggestions...")
 
     rewrite, rewrite_error = generate_resume_rewrite(
         resume_text,
         job_description,
     )
 
-    _progress("💾 Saving results...")
+    _progress("Saving results...")
 
     st.session_state.resume_text = resume_text
     st.session_state.job_description = job_description

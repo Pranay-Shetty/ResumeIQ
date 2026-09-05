@@ -23,7 +23,7 @@ def render_analysis_tab(
     # Dashboard Header
     # ==========================
 
-    st.markdown("## 📊 Dashboard")
+    st.markdown("## Dashboard")
     st.caption("Resume analysis results")
 
     st.write("")
@@ -36,7 +36,6 @@ def render_analysis_tab(
         "ATS Score",
         f"{ats_score}%",
         "Resume Compatibility",
-        "🎯",
     )
 
     st.write("")
@@ -48,7 +47,6 @@ def render_analysis_tab(
             "Skill Match",
             f"{skill_match_percentage}%",
             "Job Match",
-            "💼",
         )
 
     with col2:
@@ -56,7 +54,6 @@ def render_analysis_tab(
             "Matched Skills",
             str(len(matched)),
             "Skills Found",
-            "✅",
         )
 
     st.write("")
@@ -68,7 +65,6 @@ def render_analysis_tab(
             "Missing Skills",
             str(len(missing)),
             "Need Improvement",
-            "❌",
         )
 
     with col4:
@@ -77,14 +73,12 @@ def render_analysis_tab(
                 "Content Similarity",
                 f"{content_similarity}%",
                 "TF-IDF Match to JD",
-                "🧠",
             )
         else:
             dashboard_card(
                 "AI Confidence",
                 "High",
                 "Analysis Complete",
-                "🤖",
             )
 
     st.write("")
@@ -94,7 +88,7 @@ def render_analysis_tab(
     # ATS Score
     # ==========================
 
-    st.subheader("🎯 ATS Score")
+    st.subheader("ATS Score")
 
     show_score(ats_score)
 
@@ -109,7 +103,7 @@ def render_analysis_tab(
     # Skill Chart
     # ==========================
 
-    st.subheader("📈 Skill Analysis")
+    st.subheader("Skill Analysis")
 
     show_skill_chart(
         matched,
@@ -122,7 +116,7 @@ def render_analysis_tab(
     # Skills Breakdown
     # ==========================
 
-    st.subheader("🛠 Skills Breakdown")
+    st.subheader("Skills Breakdown")
 
     show_skills(
         matched,

@@ -5,7 +5,7 @@ from services.history_service import clear_history, get_history, restore_from_hi
 
 def render_history_section():
 
-    st.markdown("## 📚 Analysis History")
+    st.markdown("## Analysis History")
 
     st.caption(
         "Past analyses from this session -- reload any of them to revisit "
@@ -18,14 +18,14 @@ def render_history_section():
 
     if not history:
         st.info(
-            "No analyses yet. Run one from \"🔍 Analyze One Resume\" and "
+            "No analyses yet. Run one from \"Analyze One Resume\" and "
             "it'll show up here."
         )
         return
 
     st.write("")
 
-    if st.button("🗑️ Clear History"):
+    if st.button("Clear History"):
         clear_history()
         st.rerun()
 
@@ -52,6 +52,6 @@ def render_history_section():
             with col5:
                 st.write("")
                 st.write("")
-                if st.button("🔄 Reload", key=f"reload_{entry['id']}", use_container_width=True):
+                if st.button("Reload", key=f"reload_{entry['id']}", use_container_width=True):
                     restore_from_history(entry["id"])
                     st.rerun()

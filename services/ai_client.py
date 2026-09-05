@@ -74,7 +74,7 @@ def call_model_with_fallback(prompt: str):
     try:
         return call_model(prompt, use_json_mode=True)
     except Exception as json_mode_error:
-        print(f"⚠ JSON mode unavailable, falling back to plain completion: {json_mode_error}")
+        print(f"JSON mode unavailable, falling back to plain completion: {json_mode_error}")
         return call_model(prompt, use_json_mode=False)
 
 

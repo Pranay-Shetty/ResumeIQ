@@ -1,10 +1,10 @@
-# 🧠 ResumeIQ
+# ResumeIQ
 
 An AI-powered resume analyzer that compares your resume against a job description and gives you an ATS score breakdown, skill-gap analysis, AI-written insights, rewrite suggestions, a cover letter, and interview prep — all in one place.
 
 *(Formerly "AI Resume Analyzer" — renamed for a clearer identity.)*
 
-## 🚀 Features
+## Features
 
 - Upload PDF/DOCX resumes
 - Resume text extraction
@@ -20,7 +20,7 @@ An AI-powered resume analyzer that compares your resume against a job descriptio
 - Step-by-step progress during analysis, and automatic retry with backoff on transient AI-provider errors (rate limits, timeouts, 5xx)
 - Downloadable PDF analysis report
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - Python
 - Streamlit
@@ -34,11 +34,11 @@ An AI-powered resume analyzer that compares your resume against a job descriptio
 - fpdf2 (PDF report generation)
 - tenacity (retry with backoff on transient AI-provider errors)
 
-## 📌 Project Status
+## Project Status
 
-✅ Feature-complete (v1.2) — core pipeline plus rewrite suggestions, cover letter generation, multi-resume comparison, session history, and a refreshed UI; ongoing polish and bug fixes.
+Feature-complete (v1.2) — core pipeline plus rewrite suggestions, cover letter generation, multi-resume comparison, session history, and a refreshed, professional UI; ongoing polish and bug fixes.
 
-## 📅 Roadmap
+## Roadmap
 
 - [x] Project setup
 - [x] Streamlit UI
@@ -54,10 +54,10 @@ An AI-powered resume analyzer that compares your resume against a job descriptio
 - [x] Automated test suite
 - [x] CI (GitHub Actions)
 - [x] Docker deployment
-- [x] Rebrand + UI refresh (slate + emerald theme, feature showcase)
+- [x] Rebrand + UI refresh (slate + blue theme, feature showcase)
 - [ ] Live deployment (Streamlit Community Cloud)
 
-## 🧪 Testing
+## Testing
 
 ```bash
 pip install -r requirements-dev.txt
@@ -71,7 +71,7 @@ configured" error path for every AI service. A GitHub Actions workflow
 (`.github/workflows/tests.yml`) runs the suite on every push and pull
 request to `main`.
 
-## 🐳 Docker
+## Docker
 
 ```bash
 docker build -t resumeiq .
@@ -80,7 +80,7 @@ docker run -p 8501:8501 --env-file .env resumeiq
 
 Then open http://localhost:8501.
 
-## ⚙️ Setup
+## Setup
 
 ```bash
 python -m venv venv
@@ -100,6 +100,6 @@ Run the app (must use `streamlit run`, not `python app.py`):
 streamlit run app.py
 ```
 
-## 📷 Screenshots
+## Screenshots
 
 Coming soon.

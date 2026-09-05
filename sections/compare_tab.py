@@ -5,13 +5,13 @@ import streamlit as st
 from services.comparison_service import compare_resumes
 
 MAX_RESUMES = 5
-BAR_COLOR = "#10B981"
+BAR_COLOR = "#2563EB"
 TEXT_COLOR = "#E2E8F0"
 
 
 def render_compare_section():
 
-    st.markdown("## 🆚 Compare Multiple Resumes")
+    st.markdown("## Compare Multiple Resumes")
 
     st.caption(
         f"Upload up to {MAX_RESUMES} resumes and score them all against "
@@ -39,7 +39,7 @@ def render_compare_section():
         st.write("")
 
         compare_clicked = st.button(
-            "🚀 Compare Resumes",
+            "Compare Resumes",
             type="primary",
             use_container_width=True,
         )
@@ -65,7 +65,7 @@ def render_compare_section():
     st.divider()
 
     best = results[0]
-    st.success(f"🏆 Strongest match: **{best['filename']}** (ATS score {best['ats_score']}%)")
+    st.success(f"Strongest match: **{best['filename']}** (ATS score {best['ats_score']}%)")
 
     df = pd.DataFrame([
         {

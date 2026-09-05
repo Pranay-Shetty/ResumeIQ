@@ -68,7 +68,7 @@ def analyze_resume(resume_text, job_description):
         return ResumeAnalysis(**data), None
 
     except json.JSONDecodeError as e:
-        print("❌ JSON Decode Error")
+        print("JSON Decode Error")
         print(result)
         print(e)
         return None, (
@@ -79,7 +79,7 @@ def analyze_resume(resume_text, job_description):
         )
 
     except ValidationError as e:
-        print("❌ Response Validation Error")
+        print("Response Validation Error")
         print(result)
         print(e)
         return None, (
@@ -89,14 +89,14 @@ def analyze_resume(resume_text, job_description):
         )
 
     except openai.RateLimitError as e:
-        print(f"❌ Rate Limited: {e}")
+        print(f"Rate Limited: {e}")
         return None, (
             "OpenRouter is rate-limiting requests right now (the client "
             "already retried automatically). Wait a moment and try again."
         )
 
     except (openai.APITimeoutError, openai.APIConnectionError) as e:
-        print(f"❌ Network Error: {e}")
+        print(f"Network Error: {e}")
         return None, (
             "The request to OpenRouter timed out or the connection was "
             "interrupted, even after retrying. Check your network "
@@ -104,7 +104,7 @@ def analyze_resume(resume_text, job_description):
         )
 
     except Exception as e:
-        print(f"❌ Unexpected Error: {e}")
+        print(f"Unexpected Error: {e}")
         return None, (
             f"The AI request failed: {e}. This is often an invalid/expired "
             "OPENROUTER_API_KEY, insufficient OpenRouter credits, or the "

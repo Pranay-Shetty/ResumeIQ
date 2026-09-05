@@ -18,7 +18,6 @@ def show_sidebar(
         st.markdown(
             """
             <div class="sidebar-brand">
-                <div class="sidebar-brand-icon">🧠</div>
                 <div class="sidebar-brand-title">ResumeIQ</div>
                 <div class="sidebar-brand-version">Version 1.2</div>
             </div>
@@ -28,14 +27,14 @@ def show_sidebar(
 
         mode_label = st.radio(
             "Mode",
-            ["🔍 Analyze One Resume", "🆚 Compare Resumes", "📚 History"],
+            ["Analyze One Resume", "Compare Resumes", "History"],
             key="app_mode",
             label_visibility="collapsed",
         )
 
-        if mode_label.startswith("🆚"):
+        if mode_label == "Compare Resumes":
             mode = "compare"
-        elif mode_label.startswith("📚"):
+        elif mode_label == "History":
             mode = "history"
         else:
             mode = "single"
@@ -49,7 +48,7 @@ def show_sidebar(
             st.markdown(
                 f"""
                 <div class="sidebar-snapshot">
-                    <div class="snapshot-heading">📌 Current Analysis</div>
+                    <div class="snapshot-heading">Current Analysis</div>
                     <div class="snapshot-row">
                         <div class="snapshot-stat">
                             <div class="snapshot-value">{ats_score}%</div>
@@ -69,7 +68,7 @@ def show_sidebar(
             st.markdown(
                 """
                 <div class="alert-card">
-                    ⚠ No OpenRouter API key detected.<br><br>
+                    No OpenRouter API key detected.<br><br>
                     AI-powered insights will be unavailable until
                     <code>OPENROUTER_API_KEY</code> is set in your
                     <code>.env</code> file. Rule-based ATS scoring and
@@ -84,10 +83,10 @@ def show_sidebar(
         st.markdown(
             """
             <div class="sidebar-stack">
-                <span>🐍 Python</span>
-                <span>⚡ Streamlit</span>
-                <span>🤖 OpenAI / OpenRouter</span>
-                <span>📊 scikit-learn</span>
+                <span>Python</span>
+                <span>Streamlit</span>
+                <span>OpenAI / OpenRouter</span>
+                <span>scikit-learn</span>
             </div>
             """,
             unsafe_allow_html=True,

@@ -12,7 +12,7 @@ def render_upload_panel(reset_key=0):
         left, right = st.columns([1, 2], gap="large")
 
         with left:
-            st.markdown("### 📄 Upload Resume")
+            st.markdown("### Upload Resume")
 
             uploaded_resume = st.file_uploader(
                 "",
@@ -22,7 +22,7 @@ def render_upload_panel(reset_key=0):
             )
 
         with right:
-            st.markdown("### 📋 Job Description")
+            st.markdown("### Job Description")
 
             job_description = st.text_area(
                 "",
@@ -35,7 +35,7 @@ def render_upload_panel(reset_key=0):
         st.write("")
 
         analyze = st.button(
-            "🚀 Analyze Resume",
+            "Analyze Resume",
             use_container_width=True,
             type="primary",
         )

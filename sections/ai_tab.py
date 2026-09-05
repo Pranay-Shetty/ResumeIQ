@@ -3,10 +3,10 @@ import streamlit as st
 
 def render_ai_tab(analysis, ai_error=None):
 
-    st.header("🤖 AI Resume Analysis")
+    st.header("AI Resume Analysis")
 
     if analysis is None:
-        st.error(f"❌ {ai_error or 'AI returned an invalid response.'}")
+        st.error(f"{ai_error or 'AI returned an invalid response.'}")
         return
 
     score_col, summary_col = st.columns([1, 2])
@@ -18,7 +18,7 @@ def render_ai_tab(analysis, ai_error=None):
         )
 
     with summary_col:
-        st.subheader("📝 Professional Summary")
+        st.subheader("Professional Summary")
         st.write(analysis.professional_summary)
 
     st.divider()
@@ -27,30 +27,30 @@ def render_ai_tab(analysis, ai_error=None):
 
     with left:
 
-        st.subheader("💪 Strengths")
+        st.subheader("Strengths")
 
         for strength in analysis.strengths:
             st.success(strength)
 
     with right:
 
-        st.subheader("⚠ Weaknesses")
+        st.subheader("Weaknesses")
 
         for weakness in analysis.weaknesses:
             st.warning(weakness)
 
     st.divider()
 
-    st.subheader("📌 Missing Skills")
+    st.subheader("Missing Skills")
 
     if analysis.missing_skills:
         st.write(", ".join(analysis.missing_skills))
     else:
-        st.success("No missing skills 🎉")
+        st.success("No missing skills")
 
     st.divider()
 
-    st.subheader("🚀 Suggestions")
+    st.subheader("Suggestions")
 
     for suggestion in analysis.suggestions:
         st.info(suggestion)

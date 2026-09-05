@@ -3,7 +3,7 @@ import streamlit as st
 
 def show_score(score: int):
 
-    st.subheader("📊 ATS Analysis")
+    st.subheader("ATS Analysis")
 
     progress = score / 100
 
@@ -16,12 +16,12 @@ def show_score(score: int):
         st.metric("ATS Score", f"{score}%")
 
     if score >= 90:
-        st.success("🌟 Outstanding Resume")
+        st.success("Outstanding Resume")
     elif score >= 80:
-        st.success("✅ Excellent ATS Compatibility")
+        st.success("Excellent ATS Compatibility")
     elif score >= 70:
-        st.info("👍 Good Resume")
+        st.info("Good Resume")
     elif score >= 60:
-        st.warning("⚠ Can Be Improved")
+        st.warning("Can Be Improved")
     else:
-        st.error("❌ Needs Significant Improvement")
+        st.error("Needs Significant Improvement")

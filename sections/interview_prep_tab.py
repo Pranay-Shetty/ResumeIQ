@@ -1,19 +1,12 @@
 import streamlit as st
 
-CATEGORY_ICON = {
-    "Behavioral": "🧭",
-    "Technical": "🛠",
-    "Situational": "🧩",
-    "Role-Specific": "🎯",
-}
-
 
 def render_interview_prep_tab(interview_prep, error=None):
 
-    st.header("🎤 Interview Preparation")
+    st.header("Interview Preparation")
 
     if interview_prep is None:
-        st.error(f"❌ {error or 'Interview prep could not be generated.'}")
+        st.error(error or "Interview prep could not be generated.")
         return
 
     st.caption(
@@ -25,16 +18,14 @@ def render_interview_prep_tab(interview_prep, error=None):
     st.write("")
 
     for i, q in enumerate(interview_prep.questions, start=1):
-        icon = CATEGORY_ICON.get(q.category, "❓")
-
         with st.expander(f"{i}. {q.question}"):
-            st.caption(f"{icon} {q.category}")
+            st.caption(q.category)
             st.markdown("**Suggested Answer**")
             st.write(q.suggested_answer)
 
     if interview_prep.tips:
         st.divider()
-        st.subheader("💡 Tips For This Role")
+        st.subheader("Tips For This Role")
 
         for tip in interview_prep.tips:
             st.info(tip)

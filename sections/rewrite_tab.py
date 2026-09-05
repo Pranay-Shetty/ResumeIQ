@@ -3,10 +3,10 @@ import streamlit as st
 
 def render_rewrite_tab(rewrite, error=None):
 
-    st.header("✍️ Resume Rewrite Suggestions")
+    st.header("Resume Rewrite Suggestions")
 
     if rewrite is None:
-        st.error(f"❌ {error or 'Rewrite suggestions could not be generated.'}")
+        st.error(f"{error or 'Rewrite suggestions could not be generated.'}")
         return
 
     st.caption(
@@ -18,7 +18,7 @@ def render_rewrite_tab(rewrite, error=None):
     st.write("")
 
     if not rewrite.rewrites:
-        st.success("No weak lines detected -- your resume already reads strong 🎉")
+        st.success("No weak lines detected -- your resume already reads strong")
     else:
         for i, item in enumerate(rewrite.rewrites, start=1):
             with st.container(border=True):
@@ -26,11 +26,11 @@ def render_rewrite_tab(rewrite, error=None):
                 st.markdown(f"> {item.original}")
                 st.markdown("**Improved**")
                 st.success(item.improved)
-                st.caption(f"💡 {item.reason}")
+                st.caption(f"{item.reason}")
 
     if rewrite.general_advice:
         st.divider()
-        st.subheader("📎 General Advice")
+        st.subheader("General Advice")
 
         for advice in rewrite.general_advice:
             st.info(advice)
