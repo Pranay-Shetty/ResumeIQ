@@ -449,6 +449,37 @@ textarea, [data-testid="stTextArea"] textarea {
    Feature Highlights (landing)
 ========================== */
 
+/* Stretch each feature card to fill its column's full height, so all
+   three cards in a row match regardless of how many lines their title
+   or description wrap to at the current window width -- a fixed
+   min-height alone breaks on narrower windows where text wraps more
+   than expected. Streamlit already stretches [data-testid="stColumn"]
+   to the row's tallest column; the rest of this forces flex-direction
+   and flex:1 down through EVERY wrapper div Streamlit puts around an
+   st.markdown() call (including an unnamed one with a hashed class
+   that isn't safe to select directly), since a single level left as
+   the default row-direction/no-flex breaks the whole chain. */
+[data-testid="stColumn"]:has(.feature-card) {
+    display: flex;
+}
+
+[data-testid="stColumn"]:has(.feature-card) > [data-testid="stVerticalBlock"] {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1;
+}
+
+[data-testid="stColumn"]:has(.feature-card) [data-testid="stElementContainer"],
+[data-testid="stColumn"]:has(.feature-card) [data-testid="stMarkdown"],
+[data-testid="stColumn"]:has(.feature-card) [data-testid="stMarkdown"] > div,
+[data-testid="stColumn"]:has(.feature-card) [data-testid="stMarkdownContainer"] {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+}
+
 .feature-card {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -456,9 +487,13 @@ textarea, [data-testid="stTextArea"] textarea {
     padding: 16px;
     margin-bottom: 12px;
     min-height: 136px;
+    width: 100%;
     box-sizing: border-box;
     text-align: center;
     transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .feature-card:hover {
