@@ -156,7 +156,7 @@ streamlit run app.py
 
 ## Contact
 
-Pranay Shetty — [GitHub](https://github.com/Pranay-Shetty) — shettyprathik0409@gmail.com
+Pranay Shetty — [GitHub](https://github.com/Pranay-Shetty) — pranayshettyprs@gmail.com — +91 7349782428
 
 ---
 
