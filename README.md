@@ -102,4 +102,14 @@ streamlit run app.py
 
 ## Screenshots
 
-Coming soon.
+**Landing page** -- feature overview and quick access to every mode.
+
+![ResumeIQ landing page](docs/screenshot-landing.png)
+
+**Upload & job description** -- drop in a resume and paste the job description to analyze.
+
+![Upload resume and job description panel](docs/screenshot-upload-jd.png)
+
+**Compare resumes** -- score multiple resume versions against the same job description, side by side.
+
+![Compare multiple resumes](docs/screenshot-compare.png)
