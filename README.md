@@ -1,8 +1,13 @@
 # ResumeIQ
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B)](https://psresumeiq.streamlit.app/)
+
 An AI-powered resume analyzer that compares your resume against a job description and gives you an ATS score breakdown, skill-gap analysis, AI-written insights, rewrite suggestions, a cover letter, and interview prep — all in one place.
 
 *(Formerly "AI Resume Analyzer" — renamed for a clearer identity.)*
+
+**[Try it live](https://psresumeiq.streamlit.app/)** — no install required.
 
 ## Features
 
@@ -36,7 +41,7 @@ An AI-powered resume analyzer that compares your resume against a job descriptio
 
 ## Project Status
 
-Feature-complete (v1.2) — core pipeline plus rewrite suggestions, cover letter generation, multi-resume comparison, session history, and a refreshed, professional UI; ongoing polish and bug fixes.
+Live and feature-complete (v1.2) — core pipeline plus rewrite suggestions, cover letter generation, multi-resume comparison, session history, a refreshed professional UI, and a public deployment; ongoing polish and bug fixes.
 
 ## Roadmap
 
@@ -55,7 +60,7 @@ Feature-complete (v1.2) — core pipeline plus rewrite suggestions, cover letter
 - [x] CI (GitHub Actions)
 - [x] Docker deployment
 - [x] Rebrand + UI refresh (slate + blue theme, feature showcase)
-- [ ] Live deployment (Streamlit Community Cloud)
+- [x] Live deployment (Streamlit Community Cloud)
 
 ## Testing
 
@@ -149,3 +154,11 @@ streamlit run app.py
 **Compare resumes** -- score multiple resume versions against the same job description, side by side.
 
 ![Compare multiple resumes](docs/compare-resumes.png)
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+## Contact
+
+Prathik Shetty — [GitHub](https://github.com/Pranay-Shetty) — shettyprathik0409@gmail.com
