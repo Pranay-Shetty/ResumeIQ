@@ -104,12 +104,48 @@ streamlit run app.py
 
 **Landing page** -- feature overview and quick access to every mode.
 
-![ResumeIQ landing page](docs/screenshot-landing.png)
+![ResumeIQ landing page](docs/landing.png)
 
 **Upload & job description** -- drop in a resume and paste the job description to analyze.
 
-![Upload resume and job description panel](docs/screenshot-upload-jd.png)
+![Upload resume and job description panel](docs/upload-job-description.png)
+
+**Instant summary** -- a quick-glance popup the moment analysis finishes.
+
+![Analysis complete summary modal](docs/analysis-complete-modal.png)
+
+**Dashboard overview** -- ATS score, skill match, matched/missing skill counts, and content similarity at a glance.
+
+![Analysis dashboard overview](docs/dashboard-overview.png)
+
+**ATS score breakdown** -- exactly why the resume scored what it did, by category.
+
+![ATS score breakdown](docs/ats-score-breakdown.png)
+
+**Skill-gap analysis** -- matched vs. missing skills against the job description.
+
+![Skill match donut chart and skill breakdown](docs/skill-match-analysis.png)
+
+**AI resume analysis** -- recruiter-style strengths, weaknesses, and a tailored professional summary.
+
+![AI resume analysis with strengths and weaknesses](docs/ai-resume-analysis.png)
+
+**Rewrite suggestions** -- weak resume lines rewritten and tailored to the job description, with reasoning.
+
+![Resume rewrite suggestions](docs/rewrite-suggestions.png)
+
+**Interview prep** -- tailored interview questions with suggested answers drawn from the resume.
+
+![Interview preparation questions](docs/interview-prep.png)
+
+**Cover letter generator** -- a tailored, editable cover letter in the tone you choose.
+
+![Cover letter generator](docs/cover-letter-generator.png)
+
+**Downloadable report** -- export the full analysis as a PDF.
+
+![Download analysis report](docs/download-report.png)
 
 **Compare resumes** -- score multiple resume versions against the same job description, side by side.
 
-![Compare multiple resumes](docs/screenshot-compare.png)
+![Compare multiple resumes](docs/compare-resumes.png)
