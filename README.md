@@ -161,4 +161,4 @@ MIT — see [LICENSE](LICENSE).
 
 ## Contact
 
-Prathik Shetty — [GitHub](https://github.com/Pranay-Shetty) — shettyprathik0409@gmail.com
+Pranay Shetty — [GitHub](https://github.com/Pranay-Shetty) — shettyprathik0409@gmail.com
